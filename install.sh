@@ -4,7 +4,7 @@ if [[ $1 != 'install' && $1 != 'update' && $1 != 'uninstall' ]]; then
   exit 1
 fi
 if [[ $1 == 'uninstall' ]]; then
-  rmdir /opt/rcontrol
+  rm -r /opt/rcontrol
   rm /etc/nginx/sites-enabled/nginx_conf
   systemctl disable rcontrol_web
   systemctl disable rcontrol_sched
@@ -21,7 +21,7 @@ if [[ $1 == 'install' ]]; then
   mkdir /opt/rcontrol/app
   mkdir /opt/rcontrol/service
   rm /etc/nginx/sites-enabled/default
-  cp app/example_data_file.json /opt/rcontrol/app/data_file.json
+  cp app/params.json /opt/rcontrol/app/params.json
 fi
 
 cp -r html/ /opt/rcontrol/html/
