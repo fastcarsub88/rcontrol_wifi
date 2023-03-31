@@ -1,0 +1,13 @@
+
+[Unit]
+Description=Python api for R-Control
+After=network-online.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+WorkingDirectory=/opt/rcontrol/app
+ExecStart=/usr/bin/python /opt/rcontrol/app/schedule.py
+Restart=always
+User=rcontrol

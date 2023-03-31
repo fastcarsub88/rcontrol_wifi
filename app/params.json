@@ -1,0 +1,12 @@
+{
+  "auto": 1,
+  "min_temp": 15,
+  "open_method": "time",
+  "close_method": "sun",
+  "fst_close_tm": 10,
+  "rain_pres": 5.0, 
+  "min_pres": 4.0,
+  "max_pres": 6.8,
+  "close": "45",
+  "open": "07:00"
+}

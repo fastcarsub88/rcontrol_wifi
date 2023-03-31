@@ -1,0 +1,123 @@
+html{font-size: 16px;text-align: center;}
+*{box-sizing: border-box;}
+body{margin: 0;padding: 0; }
+input{font-size: 1rem}
+button{
+  font-size: 1rem;
+  padding: 1rem;
+  margin: .5rem;
+  border-radius: .5rem
+}
+p img{height: 1em}
+
+.par-inpt-wrpr input[type="number"] {width: 3rem;}
+.clx p {
+  margin: 0;
+  font-size: 2rem;
+  line-height: 1rem;
+}
+.chbxtab:checked + label{
+  border-bottom: .1rem solid;
+  color: black;
+}
+.chbxtablabel {
+    padding: .2rem 1rem;
+    display: inline-block;
+    margin: 0 0 1rem;
+    color: gray;
+}
+.chbxtab {
+  width: 0;
+  height: 0;
+  margin: 0;
+}
+.mdl-slider{
+  -webkit-appearance: slider-vertical;
+}
+.col2{
+  display: inline-block;
+  margin: 0;
+  text-align: center;
+}
+.d-group{
+  border: 0.05rem solid;
+  margin: .2rem;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+.modal-bk {
+  position: fixed;
+  top: 0;
+  padding: 5vh;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  overflow: auto;
+}
+.modal {
+  background: white;
+  display: inline-block;
+  padding: 0 1rem;
+  position: relative;
+  padding-top: 1rem;
+}
+.no-display{
+  display: none;
+}
+.rtxt{text-align: right;}
+.par-inpt-wrpr .row{margin: 1rem}
+.btn_light::after{
+  content: "-";
+  display: block;
+  color: gray;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+  font-size: 4rem;
+}
+.btn_active::after{
+  color: limegreen;
+}
+.pad{padding: 0 1rem}
+.clx {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+}
+.saving{
+  line-height: 1rem;
+  font-family: sans-serif;
+  font-style: italic;
+}
+.saving span {
+    animation-name: blink;
+    animation-duration: 1.4s;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+    font-size: 4rem;
+}
+.saving span:nth-child(3) {animation-delay: .2s;}
+.saving span:nth-child(4) {animation-delay: .4s;}
+
+#par_open_tm_div,#par_open_sn_div,#par_close_tm_div,#par_close_sn_div{display: none}
+#par_chbx_snr:checked ~ #par_open_sn_div,
+#par_chbx_op_tm:checked ~ #par_open_tm_div,
+#par_chbx_snst:checked ~ #par_close_sn_div,
+#par_chbx_cl_tm:checked ~ #par_close_tm_div{display: block}
+#loader_elem .modal{
+  background: none;
+  padding-top: 30vh;
+  color: whitesmoke;
+  font-size: 2rem;
+  text-shadow: 0px 0px 10px white;
+}
+@media screen and (max-device-width:500px) {
+  html{font-size: 40px}
+  .mdl-slider{height: 50vh}
+  .mdl-slider::-webkit-slider-thumb{transform: scale(6)}
+  .modal{min-width: 50vw}
+}
+@keyframes blink {
+    0% {opacity: .2;}
+    20% {opacity: 1;}
+    100% {opacity: .2;}
+}
