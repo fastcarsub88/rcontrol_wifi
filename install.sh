@@ -1,5 +1,5 @@
 #!/bin/bash
-if [[ $1 != 'install' && $1 != 'update' && $1 != 'uninstall']]; then
+if [[ $1 != 'install' && $1 != 'update' && $1 != 'uninstall' ]]; then
   echo 'Pass "install" of "update" or "uninstall"'
   exit 1
 fi
