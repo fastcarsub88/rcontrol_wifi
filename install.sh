@@ -24,8 +24,8 @@ if [[ $1 == 'install' ]]; then
   cp install/params.json /opt/rcontrol/app/params.json
 fi
 
-cp -r html/ /opt/rcontrol/html/
-cp -r app/ /opt/rcontrol/app/
+cp -r html/* /opt/rcontrol/html/
+cp -r app/* /opt/rcontrol/app/
 cp install/nginx_conf /opt/rcontrol/service/
 cp install/rcontrol_sched.service /opt/rcontrol/service/
 cp install/rcontrol_web.service /opt/rcontrol/service/
