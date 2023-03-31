@@ -12,7 +12,7 @@ if [[ $1 == 'uninstall' ]]; then
 fi
 if [[ $1 == 'install' ]]; then
   apt-get install python3-pip nginx uwsgi python3-requests -y
-  getent /etc/passwd rcontrol > /dev/null
+  getent passwd rcontrol > /dev/null
   if [[ $? -ne 0 ]]; then
     useradd rcontrol
   fi
@@ -21,7 +21,7 @@ if [[ $1 == 'install' ]]; then
   mkdir /opt/rcontrol/app
   mkdir /opt/rcontrol/service
   rm /etc/nginx/sites-enabled/default
-  cp app/params.json /opt/rcontrol/app/params.json
+  cp install/params.json /opt/rcontrol/app/params.json
 fi
 
 cp -r html/ /opt/rcontrol/html/
