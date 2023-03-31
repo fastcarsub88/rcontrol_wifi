@@ -1,7 +1,14 @@
 #!/bin/bash
-if [[ $1 != 'install' && $1 != 'update' ]]; then
-  echo 'Pass "install" of "update"'
+if [[ $1 != 'install' && $1 != 'update' && $1 != 'uninstall']]; then
+  echo 'Pass "install" of "update" or "uninstall"'
   exit 1
+fi
+if [[ $1 == 'uninstall' ]]; then
+  rmdir /opt/rcontrol
+  rm /etc/nginx/sites-enabled/nginx_conf
+  systemctl disable rcontrol_web
+  systemctl disable rcontrol_sched
+  exit
 fi
 if [[ $1 == 'install' ]]; then
   apt-get install python3-pip nginx uwsgi python3-requests -y
@@ -21,15 +28,15 @@ cp -r html/ /opt/rcontrol/html/
 cp -r app/ /opt/rcontrol/app/
 cp install/nginx_conf /opt/rcontrol/service/
 cp install/rcontrol_sched.service /opt/rcontrol/service/
-cp install/rcontol_web.service /opt/rcontrol/service/
+cp install/rcontrol_web.service /opt/rcontrol/service/
 
 if [[ $1 == 'install' ]]; then
-  ln -s /opt/rcontol/service/nginx_conf /etc/nginx/sites-enabled/
+  ln -s /opt/rcontrol/service/nginx_conf /etc/nginx/sites-enabled/
   cp install/custom.css /opt/rcontrol/html/custom.css
-  systemctl link /opt/rcontrol/service/rcontrol_web.service
-  systemctl link /opt/rcontrol/service/rcontrol_sched.service
-  systemctl enable rcontrol_web
-  systemctl enable rcontrol_sched
+  systemctl enable /opt/rcontrol/service/rcontrol_web.service
+  systemctl enable /opt/rcontrol/service/rcontrol_sched.service
+  # systemctl enable rcontrol_web
+  # systemctl enable rcontrol_sched
 fi
 nginx -s reload
 echo "Please reboot"
