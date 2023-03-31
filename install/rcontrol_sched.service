@@ -8,6 +8,6 @@ WantedBy=multi-user.target
 
 [Service]
 WorkingDirectory=/opt/rcontrol/app
-ExecStart=/usr/bin/python /opt/rcontrol/app/schedule.py
+ExecStart=/usr/bin/python3 /opt/rcontrol/app/schedule.py
 Restart=always
 User=rcontrol
