@@ -12,14 +12,14 @@ if [[ $1 == 'install' ]]; then
   mkdir /opt/rcontrol
   mkdir /opt/rcontrol/html
   mkdir /opt/rcontrol/app
-  mkdir /opt/rcontol/service
+  mkdir /opt/rcontrol/service
   rm /etc/nginx/sites-enabled/default
   cp app/example_data_file.json /opt/rcontrol/app/data_file.json
 fi
 
 cp -r html/ /opt/rcontrol/html/
 cp -r app/ /opt/rcontrol/app/
-cp  install/nginx_conf /opt/rcontrol/service/
+cp install/nginx_conf /opt/rcontrol/service/
 cp install/rcontrol_sched.service /opt/rcontrol/service/
 cp install/rcontol_web.service /opt/rcontrol/service/
 
