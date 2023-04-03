@@ -1,18 +1,18 @@
 import cgi,json,threading
 from time import sleep
 from datetime import datetime
-from definitions import *
+from functions import *
 
 def set_auto_man(bool):
-    with open('data_file.json') as f:
-        data_file = json.load(f)
-    if data_file['auto'] != bool:
-        data_file['auto'] = bool
-        with open('data_file.json','w') as f:
-             f.write(json.dumps(data_file))
+    with open('params.json') as f:
+        params = json.load(f)
+    if params['auto'] != bool:
+        params['auto'] = bool
+        with open('params.json','w') as f:
+             f.write(json.dumps(params))
 
 def get_params():
-    with open('data_file.json') as f:
+    with open('params.json') as f:
         return f.read()
 
 def get_status():
@@ -32,8 +32,8 @@ def put_params(jsn):
             if f_val > 100 or f_val < 0:
                 raise Exception
             n_val = f_val/10
-        o_prms[value] = n_val
-    with open('data_file.json','w') as f:
+        o_prms[value] = n_val  
+    with open('params.json','w') as f:
          f.write(json.dumps(o_prms))
 
 def func_caller(post):

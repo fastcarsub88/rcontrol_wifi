@@ -35,8 +35,9 @@ if [[ $1 == 'install' ]]; then
   cp install/custom.css /opt/rcontrol/html/custom.css
   systemctl enable /opt/rcontrol/service/rcontrol_web.service
   systemctl enable /opt/rcontrol/service/rcontrol_sched.service
-  # systemctl enable rcontrol_web
-  # systemctl enable rcontrol_sched
 fi
+
 nginx -s reload
-echo "Please reboot"
+systemctl restart rcontrol_web
+systemctl restart rcontrol_sched
+echo "Done
