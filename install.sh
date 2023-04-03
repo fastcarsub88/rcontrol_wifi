@@ -1,6 +1,6 @@
 #!/bin/bash
 if [[ $1 != 'install' && $1 != 'update' && $1 != 'uninstall' ]]; then
-  echo 'Pass "install" of "update" or "uninstall"'
+  echo 'Pass "install" or "update" or "uninstall"'
   exit 1
 fi
 if [[ $1 == 'uninstall' ]]; then
@@ -38,6 +38,7 @@ if [[ $1 == 'install' ]]; then
 fi
 
 nginx -s reload
+systemctl daemon-reload
 systemctl restart rcontrol_web
 systemctl restart rcontrol_sched
-echo "Done
+echo "Done"
