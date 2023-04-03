@@ -1,6 +1,6 @@
 import requests,threading,json,requests,time
 from datetime import datetime
-from definitions import *
+from functions import *
 
 last_weather_check = 0
 
