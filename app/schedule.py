@@ -20,7 +20,7 @@ wind_dir_dict = {
 def get_conditions():
     try:
         w_data = requests.get("https://api.openweathermap.org/data/2.5/weather?zip=65078,us&appid=914fd2c984f8077049df587218d8579d&units=imperial")
-    except requests.exceptions.RequestException as e:
+    except Exception as e:
         with open('errors','a') as f:
             f.write(e.message+"\n")
         return False
