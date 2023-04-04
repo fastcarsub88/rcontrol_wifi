@@ -5,6 +5,18 @@ from functions import *
 last_weather_check = 0
 weather = {}
 
+wind_dir_dict = {
+0  : "N",
+45 : "NE",
+90 : "E",
+135: "SE",
+180: "S",
+225: "SW",
+270: "W",
+315: "NW",
+360: "N"
+}
+
 def get_conditions():
     try:
         w_data = requests.get("https://api.openweathermap.org/data/2.5/weather?zip=65078,us&appid=914fd2c984f8077049df587218d8579d&units=imperial")
