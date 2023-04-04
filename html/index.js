@@ -1,4 +1,5 @@
-var params;
+var params,serverTime,d_stat,weather;
+var errors = '';
 var modal = document.getElementById('mdl_elem');
 var parModel = document.getElementById('par_mdl_elem');
 var stModal = document.getElementById('st_mdl_elem');
@@ -166,6 +167,7 @@ var poll = {
   start: async function () {
     if (poll.paused) {return}
       await get_conditions();
+      update_elements()
       poll.timer = setTimeout(poll.start,3000);
     },
   pause: () => {
@@ -175,18 +177,21 @@ var poll = {
 }
 async function door_btn_click() {
   var fd = new FormData();
-  fd.append('dnum',this.dataset.dnum);
-  fd.append('dfunc',this.dataset.dfunc);
+  fd.append('relay',this.relay);
+  fd.append('node',this.node);
+  fd.append('action',this.action);
   fd.append('method',"move_door");
   loader.show();
   await send_data(fd).then(() => {
     loader.hide();
     get_conditions();
+    update_elements();
   });
 }
 async function send_data(request) {
   return fetch(
-      window.location.href+'/api',
+      // window.location.href+'/api',
+      "http://10.0.3.133/api",
       {method: 'POST',body: request}
     )
     .then((response) => {return response.json()})
@@ -217,14 +222,19 @@ async function get_conditions() {
     return
   }
   loader.hide()
-  params = JSON.parse(status.params);
-  var d_stat = status.d_stat;
-  document.getElementById('temp_elem').innerText = params.feels_like;
-  document.getElementById('wind_sp_elem').innerText = params.wind_speed;
-  document.getElementById('wind_dir_elem').innerText = params.wind_dir;
-  document.getElementById('rain_elem').innerText = (params.rain == 'true' ? "Yes": "No");
+  params = JSON.parse(status.params)
+  weather = JSON.parse(status.weather)
+  d_stat = status.d_stat
+  errors = (!status.errors ? '' : status.errors)
+  serverTime = status.time
+}
+function update_elements() {
+  document.getElementById('temp_elem').innerText = weather.feels_like;
+  document.getElementById('wind_sp_elem').innerText = weather.wind_speed;
+  document.getElementById('wind_dir_elem').innerText = weather.wind_dir;
+  document.getElementById('rain_elem').innerText = (weather.rain == 'true' ? "Yes": "No");
   document.getElementById('time_elem').innerText = status.time;
-  document.getElementById('error_message').innerText = (params.weather_error == 'false' ? '' : 'Weather check failed!!')
+  document.getElementById('error_message').innerText = errors;
   if (params.auto == 1) {
     setAutoBtn.classList.add('btn_active');
     setAutoBtn.dataset.dnum = '1';
@@ -233,21 +243,51 @@ async function get_conditions() {
     setAutoBtn.dataset.dnum = '0';
   }
   for (let [key, value] of Object.entries(d_stat)){
-    var el = document.querySelector('button[name="'+key+'"]');
-    var func_set = (key.includes('open') || key.includes('close')? false : true)
-    if (value == '1') {
-      el.classList.add("btn_active");
-      if (func_set) {
-        el.dataset.dfunc = 'close'
+    if (!value) {continue}
+    value.forEach((item, i) => {
+      var el = document.getElementById(key+i);
+      if (item == 'on') {
+        el.classList.add("btn_active");
+        el.action = 'close'
+      }else {
+        el.classList.remove('btn_active');
+        el.action = 'open'
       }
-    }else {
-      el.classList.remove('btn_active');
-      if (func_set) {
-          el.dataset.dfunc = 'open'
-      }
-    }
+    });
   }
   var d = new Date();
   document.getElementById('last_time').innerText = d.toLocaleTimeString();
 }
-document.addEventListener('DOMContentLoaded',poll.start)
+function createBtn(name,node,relay) {
+  var btn = document.createElement('button')
+  btn.classList.add('btn_light','dbtn')
+  btn.innerText = name
+  btn.onclick = door_btn_click
+  btn.action = 'close'
+  btn.relay = relay
+  btn.node = node
+  btn.id = node+relay
+  return btn
+}
+async function init() {
+  await get_conditions()
+  var div = document.createElement('div')
+  for (let [key, value] of Object.entries(d_stat)){
+    var fieldset = document.createElement('fieldset')
+    var legend = document.createElement('legend')
+    legend.innerText = "Barn"+(Number(key.replace('node',''))+1)
+    fieldset.append(legend)
+    if (!value) {
+      var p = document.createElement('p')
+      p.innerText = 'Node not online..'
+      fieldset.append(p)
+    }else {
+      fieldset.append(createBtn('Main',key,0),createBtn('Small',key,1))
+    }
+    div.append(fieldset)
+  }
+  document.getElementById('doorbtndiv').append(div)
+  update_elements()
+  poll.start()
+}
+document.addEventListener('DOMContentLoaded',init)

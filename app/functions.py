@@ -6,7 +6,7 @@ def get_relay(value):
     try:
         js = requests.get('http://'+value+'/rpc/Shelly.GetStatus').json()
     except Exception:
-        return 
+        return
     relay_state.append('on' if js['switch:0']['output'] == True else 'off')
     relay_state.append('on' if js['switch:1']['output'] == True else 'off')
     return relay_state
@@ -18,7 +18,7 @@ def get_relay_state(node='all'):
             relay_state['node'+str(index)] = get_relay(value)
     else:
         relay_state['node'+node] = get_relay(setup.nodes[int(node)])
-    return relay_state
+    return json.dumps(relay_state)
 
 
 def open_door(relay,node):

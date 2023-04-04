@@ -19,11 +19,16 @@ def get_weather():
     with open('weather.json') as f:
         return f.read()
 
+def get_errors():
+    with open('errors') as f:
+        return f.read()
+
 def get_status():
     res = {}
     res['d_stat'] = get_relay_state()
     res['params'] = get_params()
     res['weather'] = get_weather()
+    res['errors'] = get_errors()
     res['time'] = datetime.now().strftime('%H:%M')
     return json.dumps(res)
 
@@ -47,11 +52,11 @@ def func_caller(post):
     method = post.getvalue('method')
     try:
         if method == 'move_door':
-            op_cl = post.getvalue('dfunc')
-            relay = post.getvalue('dnum')
+            action = post.getvalue('action')
+            relay = post.getvalue('relay')
             node = post.getvalue('node')
             set_auto_man(0)
-            if op_cl == 'close':
+            if action == 'close':
                 close_door(relay,node)
             else:
                 open_door(relay,node)
