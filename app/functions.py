@@ -3,7 +3,10 @@ import setup
 
 def get_relay(value):
     relay_state = []
-    js = requests.get('http://'+value+'/rpc/Shelly.GetStatus').json()
+    try:
+        js = requests.get('http://'+value+'/rpc/Shelly.GetStatus').json()
+    except Exception:
+        return 
     relay_state.append('on' if js['switch:0']['output'] == True else 'off')
     relay_state.append('on' if js['switch:1']['output'] == True else 'off')
     return relay_state
@@ -19,10 +22,16 @@ def get_relay_state(node='all'):
 
 
 def open_door(relay,node):
-    js = requests.get('http://'+setup.nodes[int(node)]+'rpc/Switch.Set?id='+str(relay)+'&on=true')
+    try:
+        js = requests.get('http://'+setup.nodes[int(node)]+'/rpc/Switch.Set?id='+str(relay)+'&on=true')
+    except Exception:
+        return
 
 def close_door(relay,node):
-    js = requests.get('http://'+setup.nodes[int(node)]+'rpc/Switch.Set?id='+str(relay)+'&on=false')
+    try:
+        js = requests.get('http://'+setup.nodes[int(node)]+'/rpc/Switch.Set?id='+str(relay)+'&on=false')
+    except Exception:
+        return
 
 def close_all_doors():
     for index,value in enumerate(setup.nodes):
