@@ -1,5 +1,4 @@
-import requests
-import setup
+import requests,setup,json
 
 def get_relay(value):
     relay_state = []
