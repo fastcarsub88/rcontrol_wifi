@@ -11,7 +11,7 @@ if [[ $1 == 'uninstall' ]]; then
   exit
 fi
 if [[ $1 == 'install' ]]; then
-  apt-get install python3-pip nginx uwsgi python3-requests -y
+  apt-get install python3-pip nginx uwsgi uwsgi-plugin-python3 python3-requests -y
   getent passwd rcontrol > /dev/null
   if [[ $? -ne 0 ]]; then
     useradd rcontrol
@@ -35,7 +35,7 @@ if [[ $1 == 'install' ]]; then
   systemctl enable /opt/rcontrol/service/rcontrol_web.service
   systemctl enable /opt/rcontrol/service/rcontrol_sched.service
 fi
-chown -R rcontrol:rcontrol /opt/rcontrol 
+chown -R rcontrol:rcontrol /opt/rcontrol
 nginx -s reload
 systemctl daemon-reload
 systemctl restart rcontrol_web
