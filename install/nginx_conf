@@ -2,7 +2,7 @@ server {
 	listen 80 default_server;
 	listen [::]:80 default_server;
 
-	root /home/pi/rcontrol_tun/html;
+	root /opt/rcontrol/html;
 
 	index index.html;
 
