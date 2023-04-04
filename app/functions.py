@@ -23,3 +23,12 @@ def open_door(relay,node):
 
 def close_door(relay,node):
     js = requests.get('http://'+setup.nodes[int(node)]+'rpc/Switch.Set?id='+str(relay)+'&on=false')
+
+def close_all_doors():
+    for index,value in enumerate(setup.nodes):
+        close_door(0,index)
+        close_door(1,index)
+
+def open_all_doors(relay):
+    for index,value in enumerate(setup.nodes):
+        open_door(relay,index)

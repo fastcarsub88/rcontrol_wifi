@@ -15,10 +15,15 @@ def get_params():
     with open('params.json') as f:
         return f.read()
 
+def get_weather():
+    with open('weather.json') as f:
+        return f.read()
+
 def get_status():
     res = {}
     res['d_stat'] = get_relay_state()
     res['params'] = get_params()
+    res['weather'] = get_weather()
     res['time'] = datetime.now().strftime('%H:%M')
     return json.dumps(res)
 
@@ -32,7 +37,7 @@ def put_params(jsn):
             if f_val > 100 or f_val < 0:
                 raise Exception
             n_val = f_val/10
-        o_prms[value] = n_val  
+        o_prms[value] = n_val
     with open('params.json','w') as f:
          f.write(json.dumps(o_prms))
 

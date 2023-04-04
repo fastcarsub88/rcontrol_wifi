@@ -32,7 +32,6 @@ cp install/rcontrol_web.service /opt/rcontrol/service/
 
 if [[ $1 == 'install' ]]; then
   ln -s /opt/rcontrol/service/nginx_conf /etc/nginx/sites-enabled/
-  cp install/custom.css /opt/rcontrol/html/custom.css
   systemctl enable /opt/rcontrol/service/rcontrol_web.service
   systemctl enable /opt/rcontrol/service/rcontrol_sched.service
 fi
