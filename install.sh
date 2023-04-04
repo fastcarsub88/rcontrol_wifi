@@ -35,7 +35,7 @@ if [[ $1 == 'install' ]]; then
   systemctl enable /opt/rcontrol/service/rcontrol_web.service
   systemctl enable /opt/rcontrol/service/rcontrol_sched.service
 fi
-
+chown -R rcontrol:rcontrol /opt/rcontrol 
 nginx -s reload
 systemctl daemon-reload
 systemctl restart rcontrol_web
