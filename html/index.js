@@ -127,10 +127,6 @@ document.getElementById('st_modal_btn').onclick = () => {
 document.getElementById('clx1').onclick = () => parModel.close();
 document.getElementById('clx2').onclick = () => modal.close();
 document.getElementById('clx3').onclick = () => stModal.close();
-var dbtn = document.querySelectorAll('.dbtn');
-for (var i = 0; i < dbtn.length; i++) {
-  dbtn[i].addEventListener('click',door_btn_click)
-}
 document.addEventListener('visibilitychange',() => {
   if (document.visibilityState == 'hidden') {
     poll.pause();
@@ -168,7 +164,7 @@ var poll = {
     if (poll.paused) {return}
       await get_conditions();
       update_elements()
-      poll.timer = setTimeout(poll.start,3000);
+      poll.timer = setTimeout(poll.start,5000);
     },
   pause: () => {
     poll.paused = true;
@@ -184,8 +180,8 @@ async function door_btn_click() {
   loader.show();
   await send_data(fd).then(() => {
     loader.hide();
-    get_conditions();
-    update_elements();
+    this.classList.toggle('btn_active')
+    this.action = (this.action == 'close' ? 'open' : 'close')
   });
 }
 async function send_data(request) {
@@ -224,7 +220,7 @@ async function get_conditions() {
   loader.hide()
   params = JSON.parse(status.params)
   weather = JSON.parse(status.weather)
-  d_stat = status.d_stat
+  d_stat = JSON.parse(status.d_stat)
   errors = (!status.errors ? '' : status.errors)
   serverTime = status.time
 }
@@ -265,7 +261,7 @@ function createBtn(name,node,relay) {
   btn.onclick = door_btn_click
   btn.action = 'close'
   btn.relay = relay
-  btn.node = node
+  btn.node = node.replace('node','')
   btn.id = node+relay
   return btn
 }
