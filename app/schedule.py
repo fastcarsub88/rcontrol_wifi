@@ -3,14 +3,14 @@ from datetime import datetime
 from functions import *
 
 last_weather_check = 0
-weather = [];
+weather = get_conditions();
 
 def get_conditions():
     try:
         w_data = requests.get("https://api.openweathermap.org/data/2.5/weather?zip=65078,us&appid=914fd2c984f8077049df587218d8579d&units=imperial")
     except requests.exceptions.RequestException as e:
-        weather['error'] = e.message
-        f.write(json.dumps(weather))
+        with open('errors','a') as f:
+            f.write(e.message+"\n")
         return False
     if w_data.status_code == 200:
         w_data_check = w_data.text
@@ -65,7 +65,7 @@ def set_doors(state):
 
 while True:
     time.sleep(5)
-    cr_tm = int(datetime.now().strftime('%H:%M').replace(":",''))
+    current_time = int(datetime.now().strftime('%H:%M').replace(":",''))
     with open('params.json') as f:
         try:
             params = json.load(f)
@@ -73,6 +73,12 @@ while True:
             params['error'] = 'true'
             f.write(params)
             continue
+
+    if (current_time - last_weather_check) > 10 or last_weather_check > current_time:
+        last_weather_check = current_time
+        weather_check = get_conditions()
+        if weather_check:
+            weather = weather_check
 
     if params['open_method'] == 'time':
         open_time = int(params['open'].replace(':',''))
@@ -84,14 +90,10 @@ while True:
     else:
         close_time = cnt_time(weather['sunset'],params['close'])
 
-    if (cr_tm - last_weather_check) > 10 or last_weather_check > cr_tm:
-        last_weather_check = cr_tm
-        weather = get_conditions()
+
     if params['auto'] == 0:
         continue
     if params['open_state'] == 'reset':
-        if not weather:
-            continue
         if current_time > open_time:
             params['open_state'] = 'main'
             if feels_like < params['sm_door_temp']:
