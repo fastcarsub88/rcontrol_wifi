@@ -99,7 +99,7 @@ while True:
             if feels_like < params['min_temp']:
                 params['open_state'] = 'none'
 
-    if params['open_state'] == 'main' || params['open_state'] == 'small' param['open_state'] == 'none':
+    if params['open_state'] == 'main' or params['open_state'] == 'small' or param['open_state'] == 'none':
         if current_time > close_time:
             params['open_state'] = 'reset'
 
