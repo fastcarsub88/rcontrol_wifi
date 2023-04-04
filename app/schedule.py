@@ -105,6 +105,7 @@ while True:
 
     if params['auto'] == 0:
         continue
+    feels_like = params['feels_like']
     if params['open_state'] == 'reset':
         if current_time > open_time:
             params['open_state'] = 'main'
