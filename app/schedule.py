@@ -3,7 +3,7 @@ from datetime import datetime
 from functions import *
 
 last_weather_check = 0
-weather = get_conditions();
+weather = {}
 
 def get_conditions():
     try:
