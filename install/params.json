@@ -1,6 +1,7 @@
 {
   "auto": "0",
   "min_temp": 15,
+  "sm_door_temp": 45,
   "open_method": "time",
   "close_method": "sun",
   "close": "45",
