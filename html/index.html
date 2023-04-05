@@ -22,8 +22,8 @@
   <body>
     <div class="header">
       <div class="row">
-        <div class="col2 d-group pad">
-          <h3>Current Conditions</h3>
+        <div class="col1 d-group pad">
+          <h3>Current Status</h3>
           <p>Time <span id="time_elem"></span></p>
           <p>Feels Like <span id="temp_elem"></span> &#8457;</p>
           <p>Wind <span id="wind_dir_elem"></span> at <span id="wind_sp_elem"></span>mph</p>
@@ -31,76 +31,19 @@
         </div>
       </div>
     </div>
-    <div class="dbtn-area">
-      <div class="row">
-        <div class="d-group col2">
-          <button id="auto_btn" class="btn_light" type="button" name="auto_btn" data-dnum="0" data-dfunc="set_auto" >Auto</button>
-          <button id="pres_btn" type="button" name="pres_btn" data-dnum="0" data-dfunc="set_pressure">Pressure</button>
-          <button id="op_st_btn" type="button" name="set_op_st" data-dnum='0' data-dfunc=set_op_st>Open State</button>
-        </div>
-      </div>
+    <div class="row">
       <div>
         <div id="doorbtndiv" class="relay4">
 
         </div>
       </div>
     </div>
-    <button id="get_params_btn" type="button" name="get_params_btn">Parameters</button>
+    <div class="row">
+        <button id="get_params_btn" type="button" name="get_params_btn">Settings</button>
+    </div>
     <div class="last_time">
       <p>Last poll: <span id="last_time">8:02:52 AM</span></p>
       <p id="error_message"></p>
-    </div>
-    <div class="modal-bk no-display" id="mdl_elem">
-      <div class="modal">
-        <div class="wrpr">
-          <div id="clx2" class="clx">
-            <p>&times;</p>
-          </div>
-          <p id="model_title"></p>
-          <div class="row" id="mdl_sldr_div">
-            <div class="sld-div">
-              <input class="mdl-slider" type="range" orient='vertical' min="1" max="100" value="100" name="amount_mv" id="amount_mv">
-            </div>
-            <p><span id="mdl_func_vl"></span></p>
-          </div>
-          <div class="row">
-            <button type="button" name="modal_btn" id="modal_btn">Move</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="modal-bk no-display" id="st_mdl_elem">
-      <div class="modal">
-        <div class="wrpr">
-          <div id="clx3" class="clx">
-            <p>&times;</p>
-          </div>
-          <p id="st_model_title">Doors to Open</p>
-          <form name='op_st_form' class="" action="index.html" method="post">
-            <div class="row">
-              <div class="row">
-                <input id="op_st_1" class="chbxtab" type="radio" name="open_state" value="main">
-                <label class="chbxtablabel" for="op_st_1">Main Doors</label>
-              </div>
-              <div class="row">
-                <input id="op_st_2" class="chbxtab" type="radio" name="open_state" value="small">
-                <label class="chbxtablabel" for="op_st_2">Small Doors</label>
-              </div>
-              <div class="row">
-                <input id="op_st_3" class="chbxtab" type="radio" name="open_state" value="none">
-                <label class="chbxtablabel" for="op_st_3">No Doors</label>
-              </div>
-              <div class="row">
-                <input id="op_st_4" class="chbxtab" type="radio" name="open_state" value="reset">
-                <label class="chbxtablabel" for="op_st_4">Reset to Temp</label>
-              </div>
-            </div>
-          </form>
-          <div class="row">
-            <button type="button" name="st_modal_btn" id="st_modal_btn">Set</button>
-          </div>
-        </div>
-      </div>
     </div>
     <div class="modal-bk no-display" id="par_mdl_elem">
       <div class="modal">
@@ -108,11 +51,11 @@
           <div id="clx1" class="clx">
             <p>&times;</p>
           </div>
-          <p>Parameters</p>
+          <p>Settings</p>
           <form name="par_form" class="" action="" method="post">
             <div class="par-inpt-wrpr">
               <fieldset>
-                <legend>Open Door</legend>
+                <legend>Open Doors</legend>
                 <div class="row">
                   <input id="par_chbx_snr" class="chbxtab" type="radio" name="par_chbx_op_tm" value="sun" checked>
                   <label class="chbxtablabel" for="par_chbx_snr">Sunrise</label>
@@ -149,21 +92,13 @@
                 <label for="par_sm_door_temp">Sm. Door Temp</label>
                 <input id="par_sm_door_temp" type="number" name="par_sm_door_temp" value="0"><span>&#8457;</span>
               </div>
-              <div class="row rtxt">
-                <label for="par_max_pres">Open Pressure</label>
-                <input id="par_max_pres" type="number" name="par_max_pres" value=""><span>&#37;</span>
-              </div>
-              <div class="row rtxt">
-                <label for="par_rain_pres">Rain Pressure</label>
-                <input id="par_rain_pres" type="number" name="par_rain_pres" value=""><span>&#37;</span>
-              </div>
-              <div class="row rtxt">
-                <label for="par_min_pres">Pre Close Pressure</label>
-                <input id="par_min_pres" type="number" name="par_min_pres" value=""><span>&#37;</span>
-              </div>
-              <div class="row rtxt">
-                <label for="par_fst_close_tm">Pre Close Time</label>
-                <input id="par_fst_close_tm" type="number" name="par_fst_close_tm" value=""><span>min.</span>
+              <div class="row">
+                <fieldset>
+                  <legend>Auto</legend>
+                  <div id="auto_checkboxes">
+
+                  </div>
+                </fieldset>
               </div>
             </div>
           </form>
