@@ -1,6 +1,5 @@
 import cgi,json,threading
 from time import sleep
-from datetime import datetime
 from functions import *
 
 def func_caller(post):

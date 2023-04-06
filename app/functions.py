@@ -1,4 +1,5 @@
 import requests,setup,json
+from datetime import datetime
 
 def get_relay(value):
     relay_state = []
@@ -18,7 +19,6 @@ def get_relay_state(node='all'):
     else:
         relay_state['node'+node] = get_relay(setup.nodes[int(node)])
     return json.dumps(relay_state)
-
 
 def open_door(relay,node):
     try:
