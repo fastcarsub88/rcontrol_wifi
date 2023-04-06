@@ -102,7 +102,7 @@ while True:
     else:
         close_time = cnt_time(weather['sunset'],params['close'])
 
-    if init(params['auto']) == 0:
+    if int(params['auto']) == 0:
         continue
     feels_like = weather['feels_like']
     if params['open_state'] == 'reset':
