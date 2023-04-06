@@ -126,5 +126,7 @@ while True:
                 close_door(1,index)
             if params['open_state'] == "main":
                 open_door(0,index)
+                close_door(1,index)
             if params['open_state'] == 'small':
                 open_door(1,index)
+                close_door(0,index)
