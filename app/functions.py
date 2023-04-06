@@ -73,7 +73,7 @@ def get_status():
 
 def put_params(jsn):
     o_prms = json.loads(get_params())
-    n_prms = json.loads(jsn)
+    n_prms = jsn if type(jsn) is dict else json.loads(jsn)
     for value in n_prms:
         o_prms[value] = n_prms[value]
     if len(o_prms) == 8:
