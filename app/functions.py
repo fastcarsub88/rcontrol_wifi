@@ -38,15 +38,15 @@ def close_all_doors():
         close_door(1,index)
 
 def set_man(node):
-    params = get_params()
+    node = int(node)
+    params = json.loads(get_params())
     auto = params['auto']
-    if node == len(setup.nodes):
+    if node-1 == len(setup.nodes):
         params['auto'] = auto[:node]+'0'
     elif node == 0:
         params['auto'] = '0'+auto[1:]
     else:
         params['auto'] = auto[:node]+'0'+auto[node+1:]
-    return params['auto']
     with open('params.json','w') as f:
         f.write(json.dumps(params))
 
