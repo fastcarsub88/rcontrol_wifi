@@ -119,7 +119,7 @@ while True:
             params['open_state'] = 'reset'
         put_params(params)
 
-    for index in len(setup.nodes):
+    for index in range(len(setup.nodes)):
         if params['auto'][index] == '1':
             if params['open_state'] == 'reset' or params['open_state'] == 'none':
                 close_door(0,index)
