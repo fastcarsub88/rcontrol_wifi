@@ -37,6 +37,45 @@ def close_all_doors():
         close_door(0,index)
         close_door(1,index)
 
-def open_all_doors(relay):
-    for index,value in enumerate(setup.nodes):
-        open_door(relay,index)
+def set_man(node):
+    params = get_params()
+    auto = params['auto']
+    if node == len(setup.nodes):
+        params['auto'] = auto[:node]+'0'
+    elif node == 0:
+        params['auto'] = '0'+auto[1:]
+    else:
+        params['auto'] = auto[:node]+'0'+auto[node+1:]
+    return params['auto']
+    with open('params.json','w') as f:
+        f.write(json.dumps(params))
+
+def get_params():
+    with open('params.json') as f:
+        return f.read()
+
+def get_weather():
+    with open('weather.json') as f:
+        return f.read()
+
+def get_errors():
+    with open('errors') as f:
+        return f.read()
+
+def get_status():
+    res = {}
+    res['d_stat'] = get_relay_state()
+    res['params'] = get_params()
+    res['weather'] = get_weather()
+    res['errors'] = get_errors()
+    res['time'] = datetime.now().strftime('%H:%M')
+    return json.dumps(res)
+
+def put_params(jsn):
+    o_prms = json.loads(get_params())
+    n_prms = json.loads(jsn)
+    for value in n_prms:
+        o_prms[value] = n_prms[value]
+    if len(o_prms) == 8:
+        with open('params.json','w') as f:
+            f.write(json.dumps(o_prms))

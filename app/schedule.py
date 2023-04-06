@@ -71,9 +71,9 @@ def set_doors(state):
         close_all_doors()
         return
     if state == "main":
-        open_all_doors(0)
+        open_door(0)
     if state == 'small':
-        open_all_doors(1)
+        open_door(1)
 
 while True:
     time.sleep(5)
@@ -102,8 +102,7 @@ while True:
     else:
         close_time = cnt_time(weather['sunset'],params['close'])
 
-
-    if params['auto'] == 0:
+    if init(params['auto']) == 0:
         continue
     feels_like = weather['feels_like']
     if params['open_state'] == 'reset':
@@ -113,9 +112,19 @@ while True:
                 params['open_state'] = 'small'
             if feels_like < params['min_temp']:
                 params['open_state'] = 'none'
+        put_params(params)
 
     if params['open_state'] == 'main' or params['open_state'] == 'small' or params['open_state'] == 'none':
         if current_time > close_time:
             params['open_state'] = 'reset'
+        put_params(params)
 
-    set_doors(params['open_state'])
+    for index in len(setup.nodes):
+        if params['auto'][index] == '1':
+            if params['open_state'} == 'reset' or params['open_state'} == 'none':
+                close_door(0,index)
+                close_door(1,index)
+            if params['open_state'] == "main":
+                open_door(0,index)
+            if params['open_state'] == 'small':
+                open_door(1,index)
