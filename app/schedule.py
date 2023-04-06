@@ -121,7 +121,7 @@ while True:
 
     for index in len(setup.nodes):
         if params['auto'][index] == '1':
-            if params['open_state'} == 'reset' or params['open_state'} == 'none':
+            if params['open_state'] == 'reset' or params['open_state'] == 'none':
                 close_door(0,index)
                 close_door(1,index)
             if params['open_state'] == "main":
