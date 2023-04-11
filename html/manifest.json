@@ -1,9 +1,16 @@
 {
   "name":"Range Door Controller App",
   "short_name":"Rcontrol",
+  "theme_color":"gray",
   "icons":[{
     "src":"img/rcontrol_icon.png",
     "sizes":"192x192",
+    "type":"image/png",
+    "purpose": "any"
+    },{
+  "icons":[{
+    "src":"img/maskable_icon_x512.png",
+    "sizes":"512x512",
     "type":"image/png",
     "purpose": "any"
     },{

@@ -1,9 +1,10 @@
-var cacheName = 'rcontrol_wifi-v01';
-var oldCache = 'rcontrol_wifi-v02';
+var farmname = location.pathname.replace('/sw.js','')
+farmname = farmname.replace('/','')
+var cacheName = farmname+'rctlv02';
+var oldCache = farmname+'rctlv03';
 var filesToCache = [
   "index.js?"+cacheName,
   "style.css?"+cacheName,
-  "custom.css?"+cacheName,
   "manifest.json?"+cacheName,
   "index.html?"+cacheName,
   "img/maskable_icon_x192.png?"+cacheName,
