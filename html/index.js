@@ -124,8 +124,8 @@ async function door_btn_click() {
 }
 async function send_data(request) {
   return fetch(
-      // window.location.href+'/api',
-      'http://10.0.3.133/api',
+      window.location.href+'/api',
+      // 'http://10.0.3.133/api',
       {method: 'POST',body: request}
     )
     .then((response) => {return response.json()})
