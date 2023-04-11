@@ -4,7 +4,7 @@ from datetime import datetime
 def get_relay(value):
     relay_state = []
     try:
-        js = requests.get('http://'+value+'/rpc/Shelly.GetStatus').json()
+        js = requests.get('http://'+value+'/rpc/Shelly.GetStatus',timeout=10).json()
     except Exception:
         return
     relay_state.append('on' if js['switch:0']['output'] == True else 'off')
