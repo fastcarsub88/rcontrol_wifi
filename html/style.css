@@ -25,10 +25,11 @@ fieldset{border-radius: .5rem}
   display: none;
   position: absolute;
   bottom: -5px;
-  right: 5px;
-  background-color: dgrp_color;
+  right: 10px;
+  background-color: var(--dgrp_color);
   padding: 0px 3px;
   font-style: italic;
+  color: #556464;
 }
 .par-inpt-wrpr input[type="number"] {width: 3rem;}
 .clx p {
@@ -62,7 +63,7 @@ fieldset{border-radius: .5rem}
 .d-group{
   border: 0.05rem solid;
   margin: .2rem;
-  background-color: dgrp_color;
+  background-color: var(--dgrp_color);
   border-radius: .5rem;
   padding: 1rem;
 }

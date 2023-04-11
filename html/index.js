@@ -23,6 +23,7 @@ parModel.open = async function () {
   }
   parForm.par_min_temp.value = data.min_temp;
   parForm.par_sm_door_temp.value = data.sm_door_temp;
+  parForm.open_state.value = data.open_state;
   var div = document.createElement('div')
   for (let [key, value] of Object.entries(d_stat)){
     var num = Number(key.slice(-1))+1
@@ -80,6 +81,7 @@ document.getElementById('par_mdl_btn').onclick = () => {
     obj.close_method = 'sun';
     obj.close = e.par_close_sn.value;
   }
+  obj.open_state = e.open_state.value;
   put_params(obj);
 }
 document.getElementById('clx1').onclick = () => parModel.close();
@@ -122,7 +124,8 @@ async function door_btn_click() {
 }
 async function send_data(request) {
   return fetch(
-      window.location.href+'/api',
+      // window.location.href+'/api',
+      'http://10.0.3.133/api',
       {method: 'POST',body: request}
     )
     .then((response) => {return response.json()})
