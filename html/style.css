@@ -8,14 +8,25 @@ body{
   background: linear-gradient(172deg, #878787, transparent);
 }
 input{font-size: 1rem}
+input[type='checkbox']{
+  scale: 1.5;
+  transform: translateX(5px);
+}
 button{
   font-size: 1rem;
   padding: 1rem;
   margin: .5rem;
   border-radius: .5rem
 }
+select{
+  font-size: 1rem;
+  padding: 0.2rem;
+  border: 2px solid;
+  border-radius: 0.5rem;
+}
 p img{height: 1em}
 fieldset{border-radius: .5rem}
+
 .par-inpt-wrpr fieldset .row{margin: .5rem}
 .btn_fieldset{display: inline-block;position: relative;}
 .btn_legend{text-align: left;}

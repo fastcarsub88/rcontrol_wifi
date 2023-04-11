@@ -124,8 +124,8 @@ async function door_btn_click() {
 }
 async function send_data(request) {
   return fetch(
-      window.location.href+'/api',
-      // 'http://10.0.3.133/api',
+      // window.location.href+'/api',
+      'http://10.0.3.133/api',
       {method: 'POST',body: request}
     )
     .then((response) => {return response.json()})
@@ -194,6 +194,7 @@ function createCheckbox(name, checked) {
   var div = document.createElement('div')
   var label = document.createElement('label')
   var input = document.createElement('input')
+  div.classList.add('row')
   input.type = 'checkbox'
   input.id = name
   input.checked = checked
