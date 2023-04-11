@@ -1,7 +1,6 @@
 var farmname = location.pathname.replace('/sw.js','')
 farmname = farmname.replace('/','')
-var cacheName = farmname+'rctlv04';
-var oldCache = farmname+'rctlv03';
+var cacheName = farmname+'rctlv06';
 var filesToCache = [
   "index.js?"+cacheName,
   "style.css?"+cacheName,
@@ -28,8 +27,10 @@ self.addEventListener('activate',  event => {
   event.waitUntil(
     caches.keys().then(keys=> Promise.all(
       keys.map(key=>{
-        if (oldCache == key) {
-          return caches.delete(key);
+        if (key.includes(farmname)) {
+          if (key != cacheName) {
+            return caches.delete(key);
+          }
         }
       })
     )).then(()=>{
