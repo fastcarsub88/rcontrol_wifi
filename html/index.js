@@ -172,17 +172,9 @@ function update_elements() {
   document.getElementById('error_message').innerText = errors;
   for (let [node, state] of Object.entries(d_stat)){
     var element = document.getElementById(node+'fieldset')
-    if (!state) {
-      if (!element.not_online) {
-        door_btn_div.innerHTML = ''
-        door_btn_div.append(createAllNodes(d_stat))
-        element.classList.remove('in_auto')
-      }
-      continue
-    }
-    if (element.not_online && state) {
-      door_btn_div.innerHTML = ''
-      door_btn_div.append(createAllNodes(d_stat))
+    if (!state && !element.not_online) || (element.not_online && state) {
+      createAllNodes()
+      return update_elements()
     }
     if (params.auto[node.slice(-1)] == 1) {
       element.classList.add('in_auto')
@@ -250,16 +242,17 @@ function createBtn(name,node,relay) {
   btn.id = node+relay
   return btn
 }
-function createAllNodes(d_stat) {
+function createAllNodes() {
   var div = document.createElement('div')
   for (let [key, value] of Object.entries(d_stat)){
     div.append(createNodeFieldset(key,value))
   }
-  return div
+  door_btn_div.innerHTML = ''
+  door_btn_div.append(div)
 }
 async function init() {
   await get_conditions()
-  door_btn_div.append(createAllNodes(d_stat))
+  createAllNodes()
   update_elements()
   poll.start()
 }
