@@ -176,6 +176,7 @@ function update_elements() {
       createAllNodes()
       return update_elements()
     }
+    if (!state) {continue}
     if (params.auto[node.slice(-1)] == 1) {
       element.classList.add('in_auto')
     }else {
