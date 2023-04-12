@@ -3,7 +3,7 @@ html{font-size: 16px;text-align: center;font-family: sans-serif;}
 *{box-sizing: border-box;}
 body{
   margin: 0;
-  padding: 0;
+  padding: 1rem 0;
   height: 100vh;
   background: linear-gradient(172deg, #878787, transparent);
   position: relative;
@@ -29,20 +29,6 @@ p img{height: 1em}
 fieldset{border-radius: .5rem}
 
 .par-inpt-wrpr fieldset .row{margin: .5rem}
-.btn_fieldset{display: inline-block;position: relative;}
-.btn_legend{text-align: left;}
-.in_auto{border-color: limegreen}
-.in_auto .auto_span{display: inline;}
-.auto_span{
-  display: none;
-  position: absolute;
-  bottom: -5px;
-  right: 10px;
-  background-color: var(--dgrp_color);
-  padding: 0px 3px;
-  font-style: italic;
-  color: #556464;
-}
 .par-inpt-wrpr input[type="number"] {width: 3rem;}
 .clx p {
   margin: 0;
@@ -64,7 +50,20 @@ fieldset{border-radius: .5rem}
   height: 0;
   margin: 0;
 }
-
+.btn_fieldset{display: inline-block;position: relative;}
+.btn_legend{text-align: left;}
+.in_auto{border-color: limegreen}
+.in_auto .auto_span{display: inline;}
+.auto_span{
+  display: none;
+  position: absolute;
+  bottom: -5px;
+  right: 10px;
+  background-color: var(--dgrp_color);
+  padding: 0px 3px;
+  font-style: italic;
+  color: #556464;
+}
 .col1{
   display: inline-block;
   margin: 0;
@@ -95,11 +94,17 @@ fieldset{border-radius: .5rem}
   position: relative;
   border-radius: .5rem;
 }
+.clx {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  cursor: pointer;
+}
+.modal .row{margin: 1rem}
 .no-display{
   display: none;
 }
 .rtxt{text-align: right;}
-.row{margin: 1rem}
 .btn_light::after{
   content: "-";
   display: block;
@@ -113,12 +118,6 @@ fieldset{border-radius: .5rem}
   color: limegreen;
 }
 .pad{padding: 0 1rem}
-.clx {
-  position: absolute;
-  right: 1rem;
-  top: 1rem;
-  cursor: pointer;
-}
 .r_img{
   position: absolute;
   bottom: 1rem;
