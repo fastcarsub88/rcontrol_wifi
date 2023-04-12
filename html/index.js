@@ -170,15 +170,19 @@ function update_elements() {
   document.getElementById('rain_elem').innerText = (weather.rain == 'true' ? "Yes": "No");
   document.getElementById('time_elem').innerText = serverTime;
   document.getElementById('error_message').innerText = errors;
-  var skip = false
   for (let [node, state] of Object.entries(d_stat)){
-    if (skip) {continue }
+    if (!state) {
+      if (!element.not_online) {
+        door_btn_div.innerHTML = ''
+        door_btn_div.append(createAllNodes(d_stat))
+        element.classList.remove('in_auto')
+      }
+      continue
+    }
     var element = document.getElementById(node+'fieldset')
-    if ((!state && !element.not_online) || (element.not_online && state)) {
+    if (element.not_online && state)) {
       door_btn_div.innerHTML = ''
       door_btn_div.append(createAllNodes(d_stat))
-      skip = true
-      continue
     }
     if (params.auto[node.slice(-1)] == 1) {
       element.classList.add('in_auto')
@@ -225,7 +229,7 @@ function createNodeFieldset(node,online) {
     var p = document.createElement('p')
     p.innerText = 'Node not online..'
     fieldset.append(p)
-    fieldset.not_online = 'true'
+    fieldset.not_online = true
   }else {
     fieldset.append(createBtn('Main',node,0),createBtn('Small',node,1))
   }
