@@ -8,6 +8,11 @@ if [[ $1 == 'uninstall' ]]; then
   rm /etc/nginx/sites-enabled/nginx_conf
   systemctl disable rcontrol_web
   systemctl disable rcontrol_sched
+  echo "Remove all packages? Type 'yes' to remove all apt packages"
+  read remove_apt
+  if [[ $remove_apt == 'yes' ]]; then
+    apt remove python3-pip nginx uwsgi uwsgi-plugin-python3 python3-requests -y
+  fi
   exit
 fi
 if [[ $1 == 'install' ]]; then
@@ -22,6 +27,7 @@ if [[ $1 == 'install' ]]; then
   mkdir /opt/rcontrol/service
   rm /etc/nginx/sites-enabled/default
   cp install/params.json /opt/rcontrol/app/params.json
+  cp install/setup.py /opt/rcontrol/app/setup.py
 fi
 
 cp -r html/* /opt/rcontrol/html/

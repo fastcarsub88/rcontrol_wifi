@@ -1,10 +1,10 @@
-import requests,threading,json,requests,time
+import requests,json,requests,time,setup
 from datetime import datetime
 from functions import *
 
 last_weather_check = 0
 weather = {}
-
+weather_string = 'lat='+setup.location['lat']+"&lon="+setup.location['lon']+"&appid=914fd2c984f8077049df587218d8579d&units=imperial"
 wind_dir_dict = {
 0  : "N",
 45 : "NE",
@@ -19,7 +19,7 @@ wind_dir_dict = {
 
 def get_conditions():
     try:
-        w_data = requests.get("https://api.openweathermap.org/data/2.5/weather?zip=65078,us&appid=914fd2c984f8077049df587218d8579d&units=imperial")
+        w_data = requests.get("https://api.openweathermap.org/data/2.5/weather?"+weather_string)
     except Exception as e:
         with open('errors','a') as f:
             f.write(e.message+"\n")
