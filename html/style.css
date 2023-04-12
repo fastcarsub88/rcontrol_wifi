@@ -6,6 +6,7 @@ body{
   padding: 0;
   height: 100vh;
   background: linear-gradient(172deg, #878787, transparent);
+  position: relative;
 }
 input{font-size: 1rem}
 input[type='checkbox']{
@@ -120,9 +121,9 @@ fieldset{border-radius: .5rem}
 }
 .r_img{
   position: absolute;
-  bottom: 2rem;
-  right: 2rem;
-  width: 25vw;
+  bottom: 1rem;
+  right: 1rem;
+  width: 20vw;
   z-index: -1;
 }
 .saving{
