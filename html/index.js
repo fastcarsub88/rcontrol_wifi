@@ -180,7 +180,7 @@ function update_elements() {
       continue
     }
     var element = document.getElementById(node+'fieldset')
-    if (element.not_online && state)) {
+    if (element.not_online && state) {
       door_btn_div.innerHTML = ''
       door_btn_div.append(createAllNodes(d_stat))
     }
