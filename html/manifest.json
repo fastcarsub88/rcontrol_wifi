@@ -2,7 +2,7 @@
   "name":"Range Door Controller App",
   "short_name":"Rcontrol",
   "theme_color":"#878787",
-  "background_color":"#878787"
+  "background_color":"#878787",
   "icons":[{
     "src":"img/rcontrol_icon.png",
     "sizes":"192x192",
