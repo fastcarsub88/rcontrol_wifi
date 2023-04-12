@@ -181,9 +181,9 @@ function update_elements() {
       continue
     }
     if (params.auto[node.slice(-1)] == 1) {
-      element.add('in_auto')
+      element.classList.add('in_auto')
     }else {
-      element.remove('in_auto')
+      element.classList.remove('in_auto')
     }
     state.forEach((item, i) => {
       var el = document.getElementById(node+i);
