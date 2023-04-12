@@ -27,7 +27,7 @@ select{
 }
 p img{height: 1em}
 fieldset{border-radius: .5rem}
-
+.modal h2{margin: 1em}
 .par-inpt-wrpr fieldset .row{margin: .5rem}
 .par-inpt-wrpr input[type="number"] {width: 3rem;}
 .clx p {
@@ -90,7 +90,7 @@ fieldset{border-radius: .5rem}
 .modal {
   background: white;
   display: inline-block;
-  padding: 2rem 3rem 3rem;
+  padding: 0 3rem 0;
   position: relative;
   border-radius: .5rem;
 }
