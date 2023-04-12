@@ -3,6 +3,7 @@ var errors = '';
 var parModel = document.getElementById('par_mdl_elem');
 var loader = document.getElementById('loader_elem');
 var auto_checkboxes = document.getElementById('auto_checkboxes')
+var door_btn_div = document.getElementById('doorbtndiv')
 var parForm = document.forms.par_form;
 
 parModel.open = async function () {
@@ -169,15 +170,23 @@ function update_elements() {
   document.getElementById('rain_elem').innerText = (weather.rain == 'true' ? "Yes": "No");
   document.getElementById('time_elem').innerText = serverTime;
   document.getElementById('error_message').innerText = errors;
-  for (let [key, value] of Object.entries(d_stat)){
-    if (!value) {continue}
-    if (params.auto[key.slice(-1)] == 1) {
-      document.getElementById(key+'fieldset').classList.add('in_auto')
-    }else {
-      document.getElementById(key+'fieldset').classList.remove('in_auto')
+  var skip = false
+  for (let [node, state] of Object.entries(d_stat)){
+    if (skip) {continue }
+    var element = document.getElementById(node+'fieldset')
+    if ((!state && !element.not_online) || (element.not_online && state)) {
+      door_btn_div.innerHTML = ''
+      door_btn_div.append(createAllNodes(d_stat))
+      skip = true
+      continue
     }
-    value.forEach((item, i) => {
-      var el = document.getElementById(key+i);
+    if (params.auto[node.slice(-1)] == 1) {
+      element.add('in_auto')
+    }else {
+      element.remove('in_auto')
+    }
+    state.forEach((item, i) => {
+      var el = document.getElementById(node+i);
       if (item == 'on') {
         el.classList.add("btn_active");
         el.action = 'close'
@@ -204,6 +213,28 @@ function createCheckbox(name, checked) {
   div.append(label,input)
   return div
 }
+function createNodeFieldset(node,online) {
+  var fieldset = document.createElement('fieldset')
+  var legend = document.createElement('legend')
+  fieldset.classList.add('btn_fieldset')
+  fieldset.id = node+'fieldset'
+  legend.classList.add('btn_legend')
+  legend.innerText = "Barn"+(Number(node.slice(-1))+1)
+  fieldset.append(legend)
+  if (!online) {
+    var p = document.createElement('p')
+    p.innerText = 'Node not online..'
+    fieldset.append(p)
+    fieldset.not_online = 'true'
+  }else {
+    fieldset.append(createBtn('Main',node,0),createBtn('Small',node,1))
+  }
+  var span = document.createElement('span')
+  span.classList.add('auto_span')
+  span.innerText = 'Auto'
+  fieldset.append(span)
+  return fieldset
+}
 function createBtn(name,node,relay) {
   var btn = document.createElement('button')
   btn.classList.add('btn_light','dbtn')
@@ -215,31 +246,16 @@ function createBtn(name,node,relay) {
   btn.id = node+relay
   return btn
 }
-async function init() {
-  await get_conditions()
+function createAllNodes(d_stat) {
   var div = document.createElement('div')
   for (let [key, value] of Object.entries(d_stat)){
-    var fieldset = document.createElement('fieldset')
-    var legend = document.createElement('legend')
-    fieldset.classList.add('btn_fieldset')
-    fieldset.id = key+'fieldset'
-    legend.classList.add('btn_legend')
-    legend.innerText = "Barn"+(Number(key.slice(-1))+1)
-    fieldset.append(legend)
-    if (!value) {
-      var p = document.createElement('p')
-      p.innerText = 'Node not online..'
-      fieldset.append(p)
-    }else {
-      fieldset.append(createBtn('Main',key,0),createBtn('Small',key,1))
-    }
-    var span = document.createElement('span')
-    span.classList.add('auto_span')
-    span.innerText = 'Auto'
-    fieldset.append(span)
-    div.append(fieldset)
+    div.append(createNodeFieldset(key,value))
   }
-  document.getElementById('doorbtndiv').append(div)
+  return div
+}
+async function init() {
+  await get_conditions()
+  door_btn_div.append(createAllNodes(d_stat))
   update_elements()
   poll.start()
 }
