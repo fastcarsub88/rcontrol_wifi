@@ -171,6 +171,7 @@ function update_elements() {
   document.getElementById('time_elem').innerText = serverTime;
   document.getElementById('error_message').innerText = errors;
   for (let [node, state] of Object.entries(d_stat)){
+    var element = document.getElementById(node+'fieldset')
     if (!state) {
       if (!element.not_online) {
         door_btn_div.innerHTML = ''
@@ -179,7 +180,6 @@ function update_elements() {
       }
       continue
     }
-    var element = document.getElementById(node+'fieldset')
     if (element.not_online && state) {
       door_btn_div.innerHTML = ''
       door_btn_div.append(createAllNodes(d_stat))

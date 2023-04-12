@@ -1,6 +1,6 @@
 var farmname = location.pathname.replace('/sw.js','')
 farmname = farmname.replace('/','')
-var cacheName = farmname+'rctlv14';
+var cacheName = farmname+'rctlv15';
 var filesToCache = [
   "index.js?"+cacheName,
   "style.css?"+cacheName,
