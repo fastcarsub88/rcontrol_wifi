@@ -118,6 +118,13 @@ fieldset{border-radius: .5rem}
   top: 1rem;
   cursor: pointer;
 }
+.r_img{
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  width: 25vw;
+  z-index: -1;
+}
 .saving{
   line-height: 1rem;
   font-family: sans-serif;

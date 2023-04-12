@@ -112,12 +112,12 @@ while True:
                 params['open_state'] = 'small'
             if feels_like < params['min_temp']:
                 params['open_state'] = 'none'
-        put_params(params)
+            put_params(params)
 
     if params['open_state'] == 'main' or params['open_state'] == 'small' or params['open_state'] == 'none':
         if current_time > close_time:
             params['open_state'] = 'reset'
-        put_params(params)
+            put_params(params)
 
     for index in range(len(setup.nodes)):
         if params['auto'][index] == '1':
