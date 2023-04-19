@@ -8,7 +8,7 @@ body{
   background: linear-gradient(172deg, #878787, transparent);
   position: relative;
 }
-input{font-size: 1rem}
+input{font-size: 1rem;max-width: 120px}
 input[type='checkbox']{
   scale: 1.5;
   transform: translateX(5px);
@@ -81,7 +81,6 @@ fieldset{border-radius: .5rem}
 .modal-bk {
   position: fixed;
   top: 0;
-  padding: 5vh;
   width: 100vw;
   height: 100vh;
   background: rgba(0,0,0,0.5);
@@ -90,17 +89,26 @@ fieldset{border-radius: .5rem}
 .modal {
   background: white;
   display: inline-block;
-  padding: 0 3rem 0;
+  padding: 0 2rem 0;
   position: relative;
   border-radius: .5rem;
+  width: 90vw;
+  max-width: 400px;
 }
+.setting_node_div {
+    border: 1px solid;
+    margin: 0.5rem 0;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+}
+.setting_node_div input{width: 120px;border: none;border-bottom: 1px solid gray}
 .clx {
   position: absolute;
   right: 1rem;
   top: 1rem;
   cursor: pointer;
 }
-.modal .row{margin: 1rem}
+.modal .row{margin: 1rem .5rem}
 .no-display{
   display: none;
 }
@@ -145,6 +153,7 @@ fieldset{border-radius: .5rem}
 #par_chbx_op_tm:checked ~ #par_open_tm_div,
 #par_chbx_snst:checked ~ #par_close_sn_div,
 #par_chbx_cl_tm:checked ~ #par_close_tm_div{display: block}
+#edit_nodes{padding: .5rem;color: darkred}
 #loader_elem .modal{
   background: none;
   padding-top: 30vh;
@@ -152,9 +161,7 @@ fieldset{border-radius: .5rem}
   font-size: 2rem;
   text-shadow: 0px 0px 10px white;
 }
-@media screen and (max-device-width:500px) {
-  .modal{min-width: 50vw}
-}
+
 @keyframes blink {
     0% {opacity: .2;}
     20% {opacity: 1;}

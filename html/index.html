@@ -95,21 +95,37 @@
                 <label for="par_sm_door_temp">Sm. Door Temp</label>
                 <input id="par_sm_door_temp" type="number" name="par_sm_door_temp" value="0"><span>&#8457;</span>
               </div>
+              <div class="row rtxt">
+                <label for="open_state">Door State</label>
+                <select class="" name="open_state">
+                  <option value="small">Small</option>
+                  <option value="main">Main</option>
+                  <option value="reset">Reset</option>
+                  <option value="none">None</option>
+                </select>
+              </div>
               <fieldset>
                 <legend>Auto</legend>
                 <div id="auto_checkboxes">
 
                 </div>
-                <div class="row rtxt">
-                  <label for="open_state">Door State</label>
-                  <select class="" name="open_state">
-                    <option value="small">Small</option>
-                    <option value="main">Main</option>
-                    <option value="reset">Reset</option>
-                    <option value="none">None</option>
-                  </select>
-                </div>
               </fieldset>
+              <div class="row">
+                <button type="button" name="edit_nodes" id="edit_nodes">Advanced &#8623;</button>
+                <div class="no-display">
+                  <div class="row rtxt">
+                    <label for="weather_cords">Location</label>
+                    <input type="text" name="weather_cords" id="weather_cords" placeholder="lat/lon">
+                  </div>
+                  <div class="row rtxt">
+                    <label for="num_of_nodes">Number of Nodes</label>
+                    <input type="number" name="num_of_nodes" id="num_of_nodes" value="2">
+                  </div>
+                  <div id="setting_nodes">
+
+                  </div>
+                </div>
+              </div>
             </div>
           </form>
           <div class="row">

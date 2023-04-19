@@ -1,12 +1,32 @@
-import requests,setup,json
+import requests,json
 from datetime import datetime
 
-def get_relay(value):
+class Environ:
+    def __init__(self):
+        self.nodes = ''
+        self.location = ''
+        self.error = ''
+        self.params = ''
+
+    def load_params(self):
+        with open('params.json') as f:
+            params = f.read()
+        self.params = json.loads(params)
+        self.nodes = self.params['nodes']
+        self.location = self.params['location']
+        return params
+
+    def save_params(self):
+        if len(self.params) == 10:
+            with open('params.json','w') as f:
+                f.write(json.dumps(self.params))
+
+def get_relay(ip):
     relay_state = []
     try:
-        js = requests.get('http://'+value+'/rpc/Shelly.GetStatus',timeout=10).json()
+        js = requests.get('http://'+ip+'/rpc/Shelly.GetStatus',timeout=5).json()
     except Exception:
-        return
+        return "Error"
     relay_state.append('on' if js['switch:0']['output'] == True else 'off')
     relay_state.append('on' if js['switch:1']['output'] == True else 'off')
     return relay_state
@@ -14,45 +34,36 @@ def get_relay(value):
 def get_relay_state(node='all'):
     relay_state = {}
     if node == 'all':
-        for index,value in enumerate(setup.nodes):
-            relay_state['node'+str(index)] = get_relay(value)
+        for index,value in enumerate(init.nodes):
+            relay_state[value] = get_relay(init.nodes[value])
     else:
-        relay_state['node'+node] = get_relay(setup.nodes[int(node)])
+        relay_state[value] = get_relay(init.nodes[value])
     return json.dumps(relay_state)
 
 def open_door(relay,node):
     try:
-        js = requests.get('http://'+setup.nodes[int(node)]+'/rpc/Switch.Set?id='+str(relay)+'&on=true')
+        js = requests.get('http://'+init.nodes[node]+'/rpc/Switch.Set?id='+str(relay)+'&on=true')
     except Exception:
         return
 
 def close_door(relay,node):
     try:
-        js = requests.get('http://'+setup.nodes[int(node)]+'/rpc/Switch.Set?id='+str(relay)+'&on=false')
+        js = requests.get('http://'+init.nodes[node]+'/rpc/Switch.Set?id='+str(relay)+'&on=false')
     except Exception:
         return
 
 def close_all_doors():
-    for index,value in enumerate(setup.nodes):
-        close_door(0,index)
-        close_door(1,index)
+    for index,value in enumerate(init.nodes):
+        close_door(0,value)
+        close_door(1,value)
 
 def set_man(node):
-    node = int(node)
-    params = json.loads(get_params())
-    auto = params['auto']
-    if node-1 == len(setup.nodes):
-        params['auto'] = auto[:node]+'0'
-    elif node == 0:
-        params['auto'] = '0'+auto[1:]
-    else:
-        params['auto'] = auto[:node]+'0'+auto[node+1:]
-    with open('params.json','w') as f:
-        f.write(json.dumps(params))
+    init.load_params()
+    init.params['auto'][node] = 'false'
+    init.save_params()
 
 def get_params():
-    with open('params.json') as f:
-        return f.read()
+    return init.load_params()
 
 def get_weather():
     with open('weather.json') as f:
@@ -72,10 +83,10 @@ def get_status():
     return json.dumps(res)
 
 def put_params(jsn):
-    o_prms = json.loads(get_params())
     n_prms = jsn if type(jsn) is dict else json.loads(jsn)
     for value in n_prms:
-        o_prms[value] = n_prms[value]
-    if len(o_prms) == 8:
-        with open('params.json','w') as f:
-            f.write(json.dumps(o_prms))
+        init.params[value] = n_prms[value]
+    init.save_params()
+
+init = Environ()
+init.load_params()

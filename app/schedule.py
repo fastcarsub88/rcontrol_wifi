@@ -1,10 +1,9 @@
-import requests,json,requests,time,setup
+import requests,json,time
 from datetime import datetime
 from functions import *
 
 last_weather_check = 0
 weather = {}
-weather_string = 'lat='+setup.location['lat']+"&lon="+setup.location['lon']+"&appid=914fd2c984f8077049df587218d8579d&units=imperial"
 wind_dir_dict = {
 0  : "N",
 45 : "NE",
@@ -18,6 +17,7 @@ wind_dir_dict = {
 }
 
 def get_conditions():
+    weather_string = 'lat='+init.location['lat']+"&lon="+init.location['lon']+"&appid=914fd2c984f8077049df587218d8579d&units=imperial"
     try:
         w_data = requests.get("https://api.openweathermap.org/data/2.5/weather?"+weather_string)
     except Exception as e:
@@ -65,26 +65,11 @@ def cnt_time(time,num):
                 t -= 1
     return t
 
-def set_doors(state):
-    # state == none,reset,main,small
-    if state == 'reset' or state == 'none':
-        close_all_doors()
-        return
-    if state == "main":
-        open_door(0)
-    if state == 'small':
-        open_door(1)
-
 while True:
     time.sleep(5)
     current_time = int(datetime.now().strftime('%H:%M').replace(":",''))
-    with open('params.json') as f:
-        try:
-            params = json.load(f)
-        except Exception as e:
-            params['error'] = 'true'
-            f.write(params)
-            continue
+    init.load_params()
+    params = init.params
 
     if (current_time - last_weather_check) > 10 or last_weather_check > current_time:
         last_weather_check = current_time
@@ -102,8 +87,6 @@ while True:
     else:
         close_time = cnt_time(weather['sunset'],params['close'])
 
-    if int(params['auto']) == 0:
-        continue
     feels_like = weather['feels_like']
     if params['open_state'] == 'reset':
         if current_time > open_time:
@@ -119,14 +102,14 @@ while True:
             params['open_state'] = 'reset'
             put_params(params)
 
-    for index in range(len(setup.nodes)):
-        if params['auto'][index] == '1':
+    for index,value in enumerate(init.nodes):
+        if params['auto'][value] == 'true':
             if params['open_state'] == 'reset' or params['open_state'] == 'none':
-                close_door(0,index)
-                close_door(1,index)
+                close_door(0,value)
+                close_door(1,value)
             if params['open_state'] == "main":
-                open_door(0,index)
-                close_door(1,index)
+                open_door(0,value)
+                close_door(1,value)
             if params['open_state'] == 'small':
-                open_door(1,index)
-                close_door(0,index)
+                open_door(1,value)
+                close_door(0,value)

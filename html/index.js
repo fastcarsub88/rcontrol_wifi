@@ -4,6 +4,7 @@ var parModel = document.getElementById('par_mdl_elem');
 var loader = document.getElementById('loader_elem');
 var auto_checkboxes = document.getElementById('auto_checkboxes')
 var door_btn_div = document.getElementById('doorbtndiv')
+var setting_nodes = document.getElementById('setting_nodes')
 var parForm = document.forms.par_form;
 
 parModel.open = async function () {
@@ -25,15 +26,18 @@ parModel.open = async function () {
   parForm.par_min_temp.value = data.min_temp;
   parForm.par_sm_door_temp.value = data.sm_door_temp;
   parForm.open_state.value = data.open_state;
+  parForm.weather_cords.value = data.location.lat+", "+data.location.lon
   var div = document.createElement('div')
-  for (let [key, value] of Object.entries(d_stat)){
-    var num = Number(key.slice(-1))+1
-    var name = "Barn"+num
-    var checked = (params.auto[num-1] == '1'? true : false)
-    div.append(createCheckbox(name,checked))
+  for (let [node, value] of Object.entries(d_stat)){
+    var checked = (params.auto[node] == 'true' ? true : false)
+    div.append(createCheckbox(node,checked))
   }
   auto_checkboxes.innerHTML = ''
   auto_checkboxes.append(div)
+  setting_nodes.innerHTML = ''
+  for (let [key, value] of Object.entries(data.nodes)){
+    setting_nodes.append(createNodeSetInput(key,value))
+  }
   this.classList.remove('no-display');
 }
 parModel.close = function () {this.classList.add('no-display')}
@@ -47,14 +51,24 @@ loader.hide = function () {
 document.getElementById('get_params_btn').onclick = () => parModel.open();
 document.getElementById('par_mdl_btn').onclick = () => {
   var e = parForm.elements;
-  var auto = ''
+  var auto = {}
   parForm.querySelectorAll('.auto_checkboxes').forEach((item, i) => {
-    auto += (item.checked ? '1' : '0')
+    auto[item.id] = (item.checked ? 'true' : 'false')
   });
+  var nds = {}
+  setting_nodes.querySelectorAll('.setting_node_div').forEach((item, i) => {
+    nds[String(item.querySelector('input[name="node_name"]').value)] = item.querySelector('input[name="node_ip"]').value
+  });
+  var loc = {}
+  var latlon = e.weather_cords.value.split(", ")
+  loc.lat = latlon[0]
+  loc.lon = latlon[1]
   var obj = {
     min_temp : parseInt(e.par_min_temp.value),
     sm_door_temp: parseInt(e.par_sm_door_temp.value),
-    auto: auto
+    auto: auto,
+    nodes : nds,
+    location: loc
   };
   if (e.par_chbx_op_tm.value == 'time'){
     if (e.par_open_tm.value.length !== 5) {
@@ -86,6 +100,24 @@ document.getElementById('par_mdl_btn').onclick = () => {
   put_params(obj);
 }
 document.getElementById('clx1').onclick = () => parModel.close();
+document.getElementById('edit_nodes').onclick = function () {
+  this.nextElementSibling.classList.toggle('no-display')
+}
+document.getElementById('num_of_nodes').onchange = function () {
+  var current_nodes = setting_nodes.querySelectorAll('.setting_node_div')
+  if (current_nodes.length > this.value) {
+    var rn = current_nodes.length - this.value
+    for (var i = 0; i < rn; i++) {
+      setting_nodes.lastChild.remove()
+    }
+  }
+  if (current_nodes.length < this.value) {
+    var rn = this.value - current_nodes.length
+    for (var i = 0; i < rn; i++) {
+      setting_nodes.append(createNodeSetInput())
+    }
+  }
+}
 document.addEventListener('visibilitychange',() => {
   if (document.visibilityState == 'hidden') {
     poll.pause();
@@ -177,7 +209,7 @@ function update_elements() {
       return update_elements()
     }
     if (!state) {continue}
-    if (params.auto[node.slice(-1)] == 1) {
+    if (params.auto[node] == "true") {
       element.classList.add('in_auto')
     }else {
       element.classList.remove('in_auto')
@@ -216,7 +248,7 @@ function createNodeFieldset(node,online) {
   fieldset.classList.add('btn_fieldset')
   fieldset.id = node+'fieldset'
   legend.classList.add('btn_legend')
-  legend.innerText = "Barn"+(Number(node.slice(-1))+1)
+  legend.innerText = node
   fieldset.append(legend)
   if (!online) {
     var p = document.createElement('p')
@@ -250,6 +282,26 @@ function createAllNodes() {
   }
   door_btn_div.innerHTML = ''
   door_btn_div.append(div)
+}
+function createNodeSetInput(name,ip) {
+  var node_name = document.createElement('input')
+  var node_ip = document.createElement('input')
+  var div = document.createElement('div')
+  div.name = 'node_set_div'
+  div.classList.add('setting_node_div')
+  node_name.type = 'text'
+  node_name.name = 'node_name'
+  node_ip.type = 'text'
+  node_ip.name = 'node_ip'
+  if (name) {
+    node_name.value = name
+    node_ip.value = ip
+  }else {
+    node_name.placeholder = 'Node name'
+    node_ip.placeholder = 'Node ip'
+  }
+  div.append(node_name,node_ip)
+  return div
 }
 async function init() {
   await get_conditions()
