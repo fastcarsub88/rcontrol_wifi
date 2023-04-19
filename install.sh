@@ -16,7 +16,7 @@ if [[ $1 == 'uninstall' ]]; then
   exit
 fi
 if [[ $1 == 'install' ]]; then
-  apt-get install python3-pip nginx uwsgi uwsgi-plugin-python3 python3-requests -y
+  apt-get install python3-pip nginx uwsgi uwsgi-plugin-python3 python3-requests wireguard -y
   getent passwd rcontrol > /dev/null
   if [[ $? -ne 0 ]]; then
     useradd rcontrol
@@ -27,7 +27,27 @@ if [[ $1 == 'install' ]]; then
   mkdir /opt/rcontrol/service
   rm /etc/nginx/sites-enabled/default
   cp install/params.json /opt/rcontrol/app/params.json
-  cp install/setup.py /opt/rcontrol/app/setup.py
+
+  echo 'Enter wireguard IP'
+  read ip
+
+  wg genkey > /etc/wireguard/privkey
+  privatekey=$(cat /etc/wireguard/privkey)
+  wg pubkey < /etc/wireguard/privkey > /etc/wireguard/publickey
+  echo "[Interface]
+     Address = $ip
+     PrivateKey = $privatekey
+
+    [Peer]
+    PublicKey = f2Y7fbMEceSH2O5hqDFuX2XvpMbOa9wFk6gnYt4wg0E=
+    AllowedIPs = 10.8.1.0/24, 192.168.2.0/24
+    Endpoint = vpn.hawcreektech.com:51820
+
+    PersistentKeepalive = 60" > /etc/wireguard/wg0.conf
+
+  systemctl enable wg-quick@wg0
+  echo "wg set wg0 peer $(cat /etc/wireguard/publickey) allowed-ips $ip"
+
 fi
 
 cp -r html/* /opt/rcontrol/html/
