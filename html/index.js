@@ -8,6 +8,7 @@ var setting_nodes = document.getElementById('setting_nodes')
 var parForm = document.forms.par_form;
 
 parModel.open = async function () {
+  loader.show()
   var data = await get_params();
   parForm.par_chbx_op_tm.value = data.open_method;
   parForm.par_chbx_cl_tm.value = data.close_method;
@@ -39,6 +40,7 @@ parModel.open = async function () {
     setting_nodes.append(createNodeSetInput(key,value))
   }
   this.classList.remove('no-display');
+  loader.hide()
 }
 parModel.close = function () {this.classList.add('no-display')}
 loader.show = function () {
@@ -204,11 +206,11 @@ function update_elements() {
   document.getElementById('error_message').innerText = errors;
   for (let [node, state] of Object.entries(d_stat)){
     var element = document.getElementById(node+'fieldset')
-    if ((!state && !element.not_online) || (element.not_online && state)) {
+    if ((state == 'Error' && !element.not_online) || (element.not_online && state == 'Error')) {
       createAllNodes()
       return update_elements()
     }
-    if (!state) {continue}
+    if (state == "Error") {continue}
     if (params.auto[node] == "true") {
       element.classList.add('in_auto')
     }else {
@@ -250,7 +252,7 @@ function createNodeFieldset(node,online) {
   legend.classList.add('btn_legend')
   legend.innerText = node
   fieldset.append(legend)
-  if (!online) {
+  if (online == 'Error') {
     var p = document.createElement('p')
     p.innerText = 'Node not online..'
     fieldset.append(p)
@@ -304,9 +306,11 @@ function createNodeSetInput(name,ip) {
   return div
 }
 async function init() {
+  loader.show()
   await get_conditions()
   createAllNodes()
   update_elements()
   poll.start()
+  loader.hide()
 }
 document.addEventListener('DOMContentLoaded',init)
