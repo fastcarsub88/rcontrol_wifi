@@ -206,7 +206,7 @@ function update_elements() {
   document.getElementById('error_message').innerText = errors;
   for (let [node, state] of Object.entries(d_stat)){
     var element = document.getElementById(node+'fieldset')
-    if ((state == 'Error' && !element.not_online) || (element.not_online && state == 'Error')) {
+    if ((state == 'Error' && !element.not_online) || (element.not_online && state != 'Error')) {
       createAllNodes()
       return update_elements()
     }
