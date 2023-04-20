@@ -170,7 +170,7 @@ async function get_params() {
   loader.show();
   var f = new FormData();
   f.append("method","get_params");
-  return send_data(f).then(loader.hide());
+  return send_data(f);
 }
 async function put_params(obj) {
   loader.show();
