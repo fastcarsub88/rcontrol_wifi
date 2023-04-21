@@ -85,6 +85,7 @@ fieldset{border-radius: .5rem}
   height: 100vh;
   background: rgba(0,0,0,0.5);
   overflow: auto;
+  padding: 3rem 0;
 }
 .modal {
   background: white;
