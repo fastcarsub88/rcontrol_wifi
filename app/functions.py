@@ -113,7 +113,7 @@ def get_status():
     }
     res = {}
     res['d_stat'] = get_relay_state()
-    res['params'] = json.loads(params)
+    res['params'] = json.dumps(params)
 
     res['weather'] = get_weather()
     res['errors'] = get_errors()
