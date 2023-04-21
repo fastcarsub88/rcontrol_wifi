@@ -204,7 +204,7 @@ function update_elements() {
   document.getElementById('temp_elem').innerText = weather.feels_like;
   document.getElementById('wind_sp_elem').innerText = weather.wind_speed;
   document.getElementById('wind_dir_elem').innerText = weather.wind_dir;
-  document.getElementById('rain_elem').innerText = (weather.rain == 'true' ? "Yes": "No");
+  // document.getElementById('rain_elem').innerText = (weather.rain == 'true' ? "Yes": "No");
   document.getElementById('time_elem').innerText = serverTime;
   document.getElementById('sunrise_elem').innerText = weather.sunrise;
   document.getElementById('sunset_elem').innerText = weather.sunset;
