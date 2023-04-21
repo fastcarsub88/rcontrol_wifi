@@ -33,7 +33,7 @@ class Environ:
             self.close_time = int(self.params['close'].replace(':',''))
         else:
             self.close_time = self.cnt_time(weather['sunset'],self.params['close'])
-        with open('status.json') as f:
+        with open('status.json','w') as f:
             f.write(json.dumps({
               'open_time':init.open_time,
               'close_time':init.close_time,
