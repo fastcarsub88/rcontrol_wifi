@@ -24,7 +24,7 @@ class Environ:
 
     def update(self,weather):
         if self.params['open_method'] == 'time':
-            self.open_time = int(selfparams['open'].replace(':',''))
+            self.open_time = int(self.params['open'].replace(':',''))
         else:
             self.open_time = self.cnt_time(weather['sunrise'],self.params['open'])
 
