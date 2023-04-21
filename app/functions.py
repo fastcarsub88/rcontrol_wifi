@@ -17,7 +17,7 @@ class Environ:
         return params
 
     def save_params(self):
-        if len(self.params) == 10:
+        if len(self.params) == 11:
             with open('params.json','w') as f:
                 f.write(json.dumps(self.params))
 
