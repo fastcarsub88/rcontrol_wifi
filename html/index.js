@@ -44,10 +44,12 @@ parModel.open = async function () {
 }
 parModel.close = function () {this.classList.add('no-display')}
 loader.show = function () {
-  loader.timeout = setTimeout(() => {loader.classList.remove('no-display')},1000)
+  loader.active = true
+  loader.timeout = loader.setInterval((() => {loader.classList.remove('no-display')},1000)
 }
 loader.hide = function () {
-  clearTimeout(loader.timeout)
+  clearInterval(loader.timeout)
+  loader.active = false
   this.classList.add('no-display')
 }
 document.getElementById('get_params_btn').onclick = () => parModel.open();
@@ -137,11 +139,12 @@ var poll = {
     if (poll.paused) {return}
       await get_conditions();
       update_elements()
-      poll.timer = setTimeout(poll.start,5000);
+      clearInterval(poll.timer)
+      poll.timer = setInterval(poll.start,5000);
     },
   pause: () => {
     poll.paused = true;
-    clearTimeout(poll.timer);
+    clearInterval(poll.timer);
   }
 }
 async function door_btn_click() {
@@ -160,14 +163,12 @@ async function door_btn_click() {
 async function send_data(request) {
   return fetch(
       window.location.href+'/api',
-      // 'http://10.0.3.133/api',
       {method: 'POST',body: request}
     )
     .then((response) => {return response.json()})
     .catch(() => {return})
 }
 async function get_params() {
-  loader.show();
   var f = new FormData();
   f.append("method","get_params");
   return send_data(f);
@@ -190,7 +191,9 @@ async function get_conditions() {
     loader.show()
     return
   }
-  loader.hide()
+  if (loader.active) {
+    loader.hide()
+  }
   params = JSON.parse(status.params)
   weather = JSON.parse(status.weather)
   d_stat = JSON.parse(status.d_stat)

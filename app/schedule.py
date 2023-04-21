@@ -108,8 +108,12 @@ while True:
                 close_door(0,value)
                 close_door(1,value)
             if params['open_state'] == "main":
-                open_door(0,value)
-                close_door(1,value)
+                if params['door_config'] == 'all_same':
+                    open_door(0,value)
+                    open_door(1,value)
+                if params['door_config'] == 'big_small':
+                    open_door(0,value)
+                    close_door(1,value)
             if params['open_state'] == 'small':
                 open_door(1,value)
                 close_door(0,value)

@@ -92,12 +92,12 @@
                 <input id="par_min_temp" type="number" name="par_min_temp" value=""><span>&#8457;</span>
               </div>
               <div class="row rtxt">
-                <label for="par_sm_door_temp">Sm. Door Temp</label>
+                <label for="par_sm_door_temp">Main Temp</label>
                 <input id="par_sm_door_temp" type="number" name="par_sm_door_temp" value="0"><span>&#8457;</span>
               </div>
               <div class="row rtxt">
                 <label for="open_state">Door State</label>
-                <select class="" name="open_state">
+                <select class="" id="open_state" name="open_state">
                   <option value="small">Small</option>
                   <option value="main">Main</option>
                   <option value="reset">Reset</option>
@@ -116,6 +116,13 @@
                   <div class="row rtxt">
                     <label for="weather_cords">Location</label>
                     <input type="text" name="weather_cords" id="weather_cords" placeholder="lat/lon">
+                  </div>
+                  <div class="row rtxt">
+                    <label for="door_config">Door Style</label>
+                    <select class="" id="door_config" name="door_config">
+                      <option value="all_same">All</option>
+                      <option value="big_small">Big/Small</option>
+                    </select>
                   </div>
                   <div class="row rtxt">
                     <label for="num_of_nodes">Number of Nodes</label>
