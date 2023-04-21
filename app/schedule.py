@@ -46,24 +46,6 @@ def get_conditions():
                  f.write(json.dumps(weather))
             return weather
 
-def cnt_time(time,num):
-    t = int(time.replace(':',''))
-    num = int(num)
-    dir = float(num)
-    if dir >= 0:
-        for i in range(num):
-            if int(str(t)[-2:]) == 60:
-                t += 41
-            else:
-                t += 1
-    else:
-        num = -num
-        for i in range(num):
-            if int(str(t)[-2:]) == 00:
-                t -= 41
-            else:
-                t -= 1
-    return t
 
 while True:
     time.sleep(5)
@@ -76,16 +58,7 @@ while True:
         weather_check = get_conditions()
         if weather_check:
             weather = weather_check
-
-    if params['open_method'] == 'time':
-        open_time = int(params['open'].replace(':',''))
-    else:
-        open_time = cnt_time(weather['sunrise'],params['open'])
-
-    if params['close_method'] == 'time':
-        close_time = int(params['close'].replace(':',''))
-    else:
-        close_time = cnt_time(weather['sunset'],params['close'])
+            init.update(weather)
 
     feels_like = weather['feels_like']
     if params['open_state'] == 'reset':
