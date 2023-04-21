@@ -76,7 +76,7 @@ while True:
             init.save_params()
 
     if params['open_state'] == 'main' or params['open_state'] == 'small' or params['open_state'] == 'none':
-        if current_time > init.close_time:
+        if current_time >= init.close_time:
             params['open_state'] = 'reset'
             init.params = params
             init.save_params()
