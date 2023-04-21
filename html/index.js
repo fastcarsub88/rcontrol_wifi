@@ -72,7 +72,9 @@ document.getElementById('par_mdl_btn').onclick = () => {
     sm_door_temp: parseInt(e.par_sm_door_temp.value),
     auto: auto,
     nodes : nds,
-    location: loc
+    location: loc,
+    open_state: e.open_state.value,
+    door_config: e.door_config.value
   };
   if (e.par_chbx_op_tm.value == 'time'){
     if (e.par_open_tm.value.length !== 5) {
@@ -100,7 +102,6 @@ document.getElementById('par_mdl_btn').onclick = () => {
     obj.close_method = 'sun';
     obj.close = e.par_close_sn.value;
   }
-  obj.open_state = e.open_state.value;
   put_params(obj);
 }
 document.getElementById('clx1').onclick = () => parModel.close();
