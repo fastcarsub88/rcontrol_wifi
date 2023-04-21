@@ -107,12 +107,12 @@ def send_message(mess):
         f.write(mess)
 
 def read_message():
-    with open('messages','a+') as f:
-        f.seek(0)
-        mess = f.read()
-        f.seek(0)
-        r.write('')
-    return mess
+    with open('messages') as f:
+        return f.read()
+
+def clear_message():
+    with open('messages','w') as f:
+        f.write('')
 
 def put_params(params):
     send_message('params_saved')

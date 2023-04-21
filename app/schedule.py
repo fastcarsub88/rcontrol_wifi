@@ -62,6 +62,7 @@ while True:
 
     if read_message() == 'params_saved':
         init.update(weather)
+        clear_message()
 
     feels_like = weather['feels_like']
     if params['open_state'] == 'reset':
