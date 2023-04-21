@@ -208,8 +208,8 @@ function update_elements() {
   document.getElementById('time_elem').innerText = serverTime;
   document.getElementById('sunrise_elem').innerText = weather.sunrise;
   document.getElementById('sunset_elem').innerText = weather.sunset;
-  document.getElementById('open_time_elem').innerText = params.open_time;
-  document.getElementById('close_time_elem').innerText = params.close_time;
+  document.getElementById('open_time_elem').innerText = params.open;
+  document.getElementById('close_time_elem').innerText = params.close;
   document.getElementById('error_message').innerText = errors;
   for (let [node, state] of Object.entries(d_stat)){
     var element = document.getElementById(node+'fieldset')
