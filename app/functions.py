@@ -105,7 +105,8 @@ def get_params():
     return init.load_params()
 
 def put_params(params):
-    return init.save_params(params)
+    init.params = json.loads(params)
+    init.save_params()
 
 def get_weather():
     with open('weather.json') as f:
