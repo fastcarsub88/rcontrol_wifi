@@ -27,8 +27,8 @@ def func_caller(post):
         if method == 'get_status':
             return get_status()
         return '{"response":"ok"}'
-    except Exception:
-        return '{"response":"error","error":"Exception"}'
+    except Exception as e:
+        return '{"response":"error","error":"Exception: '+e.message+'"}'
 
 
 def application(env, start_response):
