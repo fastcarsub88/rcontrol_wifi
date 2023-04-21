@@ -22,7 +22,7 @@ def get_conditions():
         w_data = requests.get("https://api.openweathermap.org/data/2.5/weather?"+weather_string)
     except Exception as e:
         with open('errors','a') as f:
-            f.write(e.message+"\n")
+            f.write(repr(e)+"\n")
         return False
     if w_data.status_code == 200:
         w_data_check = w_data.text
@@ -59,6 +59,9 @@ while True:
         if weather_check:
             weather = weather_check
             init.update(weather)
+
+    if read_message() == 'params_saved':
+        init.update(weather)
 
     feels_like = weather['feels_like']
     if params['open_state'] == 'reset':

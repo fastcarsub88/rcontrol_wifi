@@ -5,7 +5,6 @@ class Environ:
     def __init__(self):
         self.nodes = ''
         self.location = ''
-        self.error = ''
         self.params = ''
         self.open_time = ''
         self.close_time = ''
@@ -38,7 +37,6 @@ class Environ:
               'open_time':init.open_time,
               'close_time':init.close_time,
               'auto':init.params['auto'],
-              'error':init.error,
               }))
 
     def cnt_time(self,time,num):
@@ -104,7 +102,20 @@ def set_man(node):
 def get_params():
     return init.load_params()
 
+def send_message(mess):
+    with open('messages','w') as f:
+        f.write(mess)
+
+def read_message():
+    with open('messages','a+') as f:
+        f.seek(0)
+        mess = f.read()
+        f.seek(0)
+        r.write('')
+    return mess
+
 def put_params(params):
+    send_message('params_saved')
     init.params = json.loads(params)
     init.save_params()
 
@@ -124,6 +135,7 @@ def get_status():
     res = {}
     res['d_stat'] = get_relay_state()
     res['params'] = read_status()
+    res['errors'] = get_errors()
     res['weather'] = get_weather()
     res['time'] = datetime.now().strftime('%H:%M')
     return json.dumps(res)
