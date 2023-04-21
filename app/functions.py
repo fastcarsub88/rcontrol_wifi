@@ -33,6 +33,13 @@ class Environ:
             self.close_time = int(self.params['close'].replace(':',''))
         else:
             self.close_time = self.cnt_time(weather['sunset'],self.params['close'])
+        with open('status.json') as f:
+            f.write(json.dumps({
+              'open_time':init.open_time,
+              'close_time':init.close_time,
+              'auto':init.params['auto'],
+              'error':init.error,
+              }))
 
     def cnt_time(self,time,num):
         t = int(time.replace(':',''))
@@ -101,30 +108,21 @@ def get_weather():
     with open('weather.json') as f:
         return f.read()
 
+def read_status():
+    with open('status.json') as f:
+        return f.read()
+
 def get_errors():
     with open('errors') as f:
         return f.read()
 
 def get_status():
-    params = {
-    'open_time':init.open_time,
-    'close_time':init.close_time,
-    'auto':init.params['auto']
-    }
     res = {}
     res['d_stat'] = get_relay_state()
-    res['params'] = json.dumps(params)
-
+    res['params'] = read_status()
     res['weather'] = get_weather()
-    res['errors'] = get_errors()
     res['time'] = datetime.now().strftime('%H:%M')
     return json.dumps(res)
-
-def put_params(jsn):
-    n_prms = jsn if type(jsn) is dict else json.loads(jsn)
-    for value in n_prms:
-        init.params[value] = n_prms[value]
-    init.save_params()
 
 init = Environ()
 init.load_params()
