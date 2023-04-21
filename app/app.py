@@ -28,7 +28,7 @@ def func_caller(post):
             return get_status()
         return '{"response":"ok"}'
     except Exception as e:
-        return '{"response":"error","error":"Exception: '+e.message+'"}'
+        return '{"response":"error","error":"Exception: '+e+'"}'
 
 
 def application(env, start_response):
