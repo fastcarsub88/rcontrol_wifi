@@ -104,6 +104,9 @@ def set_man(node):
 def get_params():
     return init.load_params()
 
+def put_params(params):
+    return init.save_params(params)
+
 def get_weather():
     with open('weather.json') as f:
         return f.read()
