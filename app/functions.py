@@ -7,6 +7,8 @@ class Environ:
         self.location = ''
         self.error = ''
         self.params = ''
+        self.open_time = ''
+        self.close_time = ''
 
     def load_params(self):
         with open('params.json') as f:
@@ -20,6 +22,36 @@ class Environ:
         if len(self.params) == 11:
             with open('params.json','w') as f:
                 f.write(json.dumps(self.params))
+
+    def update(self,weather):
+        if self.params['open_method'] == 'time':
+            self.open_time = int(selfparams['open'].replace(':',''))
+        else:
+            self.open_time = self.cnt_time(weather['sunrise'],self.params['open'])
+
+        if self.params['close_method'] == 'time':
+            self.close_time = int(self.params['close'].replace(':',''))
+        else:
+            self.close_time = self.cnt_time(weather['sunset'],self.params['close'])
+
+    def cnt_time(self,time,num):
+        t = int(time.replace(':',''))
+        num = int(num)
+        dir = float(num)
+        if dir >= 0:
+            for i in range(num):
+                if int(str(t)[-2:]) == 60:
+                    t += 41
+                else:
+                    t += 1
+        else:
+            num = -num
+            for i in range(num):
+                if int(str(t)[-2:]) == 00:
+                    t -= 41
+                else:
+                    t -= 1
+        return t
 
 def get_relay(ip):
     relay_state = []
@@ -74,9 +106,15 @@ def get_errors():
         return f.read()
 
 def get_status():
+    params = {
+    'open_time':init.open_time,
+    'close_time':init.close_time,
+    'auto':init.params['auto']
+    }
     res = {}
     res['d_stat'] = get_relay_state()
-    res['params'] = get_params()
+    res['params'] = json.loads(params)
+
     res['weather'] = get_weather()
     res['errors'] = get_errors()
     res['time'] = datetime.now().strftime('%H:%M')
