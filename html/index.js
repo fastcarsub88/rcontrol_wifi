@@ -45,7 +45,7 @@ parModel.open = async function () {
 parModel.close = function () {this.classList.add('no-display')}
 loader.show = function () {
   loader.active = true
-  loader.timeout = loader.setInterval((() => {loader.classList.remove('no-display')},1000)
+  loader.timeout = loader.setInterval(() => {loader.classList.remove('no-display')},1000)
 }
 loader.hide = function () {
   clearInterval(loader.timeout)
