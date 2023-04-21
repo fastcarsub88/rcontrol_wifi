@@ -206,6 +206,10 @@ function update_elements() {
   document.getElementById('wind_dir_elem').innerText = weather.wind_dir;
   document.getElementById('rain_elem').innerText = (weather.rain == 'true' ? "Yes": "No");
   document.getElementById('time_elem').innerText = serverTime;
+  document.getElementById('sunrise_elem').innerText = weather.sunrise;
+  document.getElementById('sunset_elem').innerText = weather.sunset;
+  document.getElementById('open_time_elem').innerText = params.open_time;
+  document.getElementById('close_time_elem').innerText = params.close_time;
   document.getElementById('error_message').innerText = errors;
   for (let [node, state] of Object.entries(d_stat)){
     var element = document.getElementById(node+'fieldset')
