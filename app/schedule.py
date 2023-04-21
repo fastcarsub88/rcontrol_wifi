@@ -62,7 +62,7 @@ while True:
 
     feels_like = weather['feels_like']
     if params['open_state'] == 'reset':
-        if current_time > open_time:
+        if current_time > init.open_time:
             params['open_state'] = 'main'
             if feels_like < params['sm_door_temp']:
                 params['open_state'] = 'small'
@@ -71,7 +71,7 @@ while True:
             put_params(params)
 
     if params['open_state'] == 'main' or params['open_state'] == 'small' or params['open_state'] == 'none':
-        if current_time > close_time:
+        if current_time > init.close_time:
             params['open_state'] = 'reset'
             put_params(params)
 
