@@ -10,7 +10,7 @@ feels_like = 50.00
 open_time = 1000
 close_time = 1700
 
-def update_conditions():
+def update_conditions(location):
     wind_dir_dict = {
     0  : "N",
     45 : "NE",
@@ -59,7 +59,7 @@ while True:
         last_weather_check = current_time
         params = load_params()
         clear_message()
-        weather_check = update_conditions()
+        weather_check = update_conditions(params['location'])
         if weather_check:
             weather = weather_check
             open_time,close_time = update_open_close_times(weather,params)
