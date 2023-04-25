@@ -68,6 +68,8 @@ while True:
 
     if read_message() == 'params_saved':
         params = load_params()
+        open_time,close_time = update_open_close_times(weather,params)
+        save_status(open_time,close_time,params['auto'])
         clear_message()
 
     if params['open_state'] == 'reset':
