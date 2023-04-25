@@ -84,7 +84,7 @@ while True:
             params['open_state'] = 'reset'
             save_params(params)
 
-    for index,value in enumerate(params.nodes):
+    for index,value in enumerate(params['nodes']):
         if params['auto'][value] == 'true':
             if params['open_state'] == 'reset' or params['open_state'] == 'none':
                 close_door(0,value)
