@@ -9,6 +9,16 @@ def set_man(node):
     status = json.loads(read_status())
     save_status(status.open_time,status.close_time,params['auto'])
 
+
+def get_status():
+    res = {}
+    res['d_stat'] = get_relay_state()
+    res['params'] = read_status()
+    res['errors'] = get_errors()
+    res['weather'] = get_weather()
+    res['time'] = datetime.now().strftime('%H:%M')
+    return json.dumps(res)
+
 def func_caller(post):
     if "method" not in post:
         return '{"response":"error","error":"no method"}'
@@ -25,14 +35,23 @@ def func_caller(post):
                 close_door(nodes,relay,node)
             else:
                 open_door(nodes,relay,node)
+            return '{"response": "ok"}'
         if method == 'get_params':
             return get_params()
         if method == 'put_params':
             save_params(post.getvalue('params'))
             send_message('params_saved')
+            return '{"response": "ok"}'
         if method == 'get_status':
-            return get_status()
-        return '{"response":"ok"}'
+            nodes = load_params()['nodes']
+            res = {}
+            res['d_stat'] = get_relay_state(nodes)
+            res['params'] = read_status()
+            res['errors'] = get_errors()
+            res['weather'] = get_weather()
+            res['time'] = datetime.now().strftime('%H:%M')
+            return json.dumps(res)
+        return '{"response":"error","error": "method not understood"}'
     except Exception as e:
         return '{"response":"error","error":"Exception: '+repr(e)+'"}'
 

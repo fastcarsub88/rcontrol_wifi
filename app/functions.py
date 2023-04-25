@@ -109,12 +109,3 @@ def read_status():
 def get_errors():
     with open('errors') as f:
         return f.read()
-
-def get_status():
-    res = {}
-    res['d_stat'] = get_relay_state()
-    res['params'] = read_status()
-    res['errors'] = get_errors()
-    res['weather'] = get_weather()
-    res['time'] = datetime.now().strftime('%H:%M')
-    return json.dumps(res)
