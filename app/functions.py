@@ -36,7 +36,7 @@ def update_open_close_times(weather,params):
         close_time = cnt_time(weather['sunset'],params['close'])
     return open_time,close_time
 
-def cnt_time(self,time,num):
+def cnt_time(time,num):
     t = int(time.replace(':',''))
     num = int(num)
     dir = float(num)
