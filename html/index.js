@@ -45,10 +45,10 @@ parModel.open = async function () {
 parModel.close = function () {this.classList.add('no-display')}
 loader.show = function () {
   loader.active = true
-  loader.timeout = setInterval(() => {loader.classList.remove('no-display')},1000)
+  loader.timeout = setTimeout(() => {loader.classList.remove('no-display')},1000)
 }
 loader.hide = function () {
-  clearInterval(loader.timeout)
+  clearTimeout(loader.timeout)
   loader.active = false
   this.classList.add('no-display')
 }
@@ -140,12 +140,10 @@ var poll = {
     if (poll.paused) {return}
       await get_conditions();
       update_elements()
-      clearInterval(poll.timer)
-      poll.timer = setInterval(poll.start,5000);
+      poll.timer = setTimeout(poll.start,5000);
     },
   pause: () => {
     poll.paused = true;
-    clearInterval(poll.timer);
   }
 }
 async function door_btn_click() {
@@ -205,7 +203,6 @@ function update_elements() {
   document.getElementById('temp_elem').innerText = weather.feels_like;
   document.getElementById('wind_sp_elem').innerText = weather.wind_speed;
   document.getElementById('wind_dir_elem').innerText = weather.wind_dir;
-  // document.getElementById('rain_elem').innerText = (weather.rain == 'true' ? "Yes": "No");
   document.getElementById('time_elem').innerText = serverTime;
   document.getElementById('sunrise_elem').innerText = weather.sunrise;
   document.getElementById('sunset_elem').innerText = weather.sunset;

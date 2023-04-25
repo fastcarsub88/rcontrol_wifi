@@ -2,6 +2,13 @@ import cgi,json,threading
 from time import sleep
 from functions import *
 
+def set_man(node):
+    params = load_params()
+    params['auto'][node] = 'false'
+    save_params(params)
+    status = json.loads(read_status())
+    save_status(status.open_time,status.close_time,params['auto'])
+
 def func_caller(post):
     if "method" not in post:
         return '{"response":"error","error":"no method"}'
@@ -16,10 +23,6 @@ def func_caller(post):
                 close_door(relay,node)
             else:
                 open_door(relay,node)
-        if method == 'set_auto':
-            auto = post.getvalue('auto')
-            bool =  1 if auto == 'true' else 0
-            set_auto_man(bool)
         if method == 'get_params':
             return get_params()
         if method == 'put_params':

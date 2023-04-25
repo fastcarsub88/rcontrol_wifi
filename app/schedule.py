@@ -4,20 +4,25 @@ from functions import *
 
 last_weather_check = 0
 weather = {}
-wind_dir_dict = {
-0  : "N",
-45 : "NE",
-90 : "E",
-135: "SE",
-180: "S",
-225: "SW",
-270: "W",
-315: "NW",
-360: "N"
-}
+params = load_params()
 
-def get_conditions():
-    weather_string = 'lat='+init.location['lat']+"&lon="+init.location['lon']+"&appid=914fd2c984f8077049df587218d8579d&units=imperial"
+feels_like = 50.00
+open_time = 1000
+close_time = 1700
+
+def update_conditions():
+    wind_dir_dict = {
+    0  : "N",
+    45 : "NE",
+    90 : "E",
+    135: "SE",
+    180: "S",
+    225: "SW",
+    270: "W",
+    315: "NW",
+    360: "N"
+    }
+    weather_string = 'lat='+location['lat']+"&lon="+location['lon']+"&appid=914fd2c984f8077049df587218d8579d&units=imperial"
     try:
         w_data = requests.get("https://api.openweathermap.org/data/2.5/weather?"+weather_string)
     except Exception as e:
@@ -46,42 +51,40 @@ def get_conditions():
                  f.write(json.dumps(weather))
             return weather
 
-
 while True:
     time.sleep(5)
     current_time = int(datetime.now().strftime('%H:%M').replace(":",''))
-    init.load_params()
-    params = init.params
 
     if (current_time - last_weather_check) > 10 or last_weather_check > current_time:
         last_weather_check = current_time
-        weather_check = get_conditions()
+        params = load_params()
+        clear_message()
+        weather_check = update_conditions()
         if weather_check:
             weather = weather_check
-            init.update(weather)
+            open_time,close_time = update_open_close_times(weather,params)
+            feels_like = weather['feels_like']
+            save_status(open_time,close_time,params['auto'])
 
     if read_message() == 'params_saved':
-        init.update(weather)
+        params = load_params()
         clear_message()
 
-    feels_like = weather['feels_like']
     if params['open_state'] == 'reset':
-        if current_time >= init.open_time:
+        if current_time >= open_time:
             params['open_state'] = 'main'
             if feels_like < params['sm_door_temp']:
                 params['open_state'] = 'small'
             if feels_like < params['min_temp']:
                 params['open_state'] = 'none'
-            init.params = params
-            init.save_params()
+            save_params(params)
 
     if params['open_state'] == 'main' or params['open_state'] == 'small' or params['open_state'] == 'none':
-        if current_time >= init.close_time:
+        if current_time >= close_time:
             params['open_state'] = 'reset'
-            init.params = params
-            init.save_params()
+            save_params(params)
 
-    for index,value in enumerate(init.nodes):
+    for index,value in enumerate(params.nodes):
         if params['auto'][value] == 'true':
             if params['open_state'] == 'reset' or params['open_state'] == 'none':
                 close_door(0,value)
