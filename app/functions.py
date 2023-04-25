@@ -65,31 +65,26 @@ def get_relay(ip):
     relay_state.append('on' if js['switch:1']['output'] == True else 'off')
     return relay_state
 
-def get_relay_state(node='all'):
+def get_relay_state(nodes,node='all'):
     relay_state = {}
     if node == 'all':
-        for index,value in enumerate(init.nodes):
-            relay_state[value] = get_relay(init.nodes[value])
+        for index,value in enumerate(nodes):
+            relay_state[value] = get_relay(nodes[value])
     else:
-        relay_state[value] = get_relay(init.nodes[value])
+        relay_state[value] = get_relay(nodes[value])
     return json.dumps(relay_state)
 
-def open_door(relay,node):
+def open_door(nodes,relay,node):
     try:
-        js = requests.get('http://'+init.nodes[node]+'/rpc/Switch.Set?id='+str(relay)+'&on=true')
+        js = requests.get('http://'+nodes[node]+'/rpc/Switch.Set?id='+str(relay)+'&on=true')
     except Exception:
         return
 
-def close_door(relay,node):
+def close_door(nodes,relay,node):
     try:
-        js = requests.get('http://'+init.nodes[node]+'/rpc/Switch.Set?id='+str(relay)+'&on=false')
+        js = requests.get('http://'+nodes[node]+'/rpc/Switch.Set?id='+str(relay)+'&on=false')
     except Exception:
         return
-
-def close_all_doors():
-    for index,value in enumerate(init.nodes):
-        close_door(0,value)
-        close_door(1,value)
 
 def send_message(mess):
     with open('messages','w') as f:

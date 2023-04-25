@@ -87,15 +87,15 @@ while True:
     for index,value in enumerate(params['nodes']):
         if params['auto'][value] == 'true':
             if params['open_state'] == 'reset' or params['open_state'] == 'none':
-                close_door(0,value)
-                close_door(1,value)
+                close_door(params['nodes'],0,value)
+                close_door(params['nodes'],1,value)
             if params['open_state'] == "main":
                 if params['door_config'] == 'all_same':
-                    open_door(0,value)
-                    open_door(1,value)
+                    open_door(params['nodes'],0,value)
+                    open_door(params['nodes'],1,value)
                 if params['door_config'] == 'big_small':
-                    open_door(0,value)
-                    close_door(1,value)
+                    open_door(params['nodes'],0,value)
+                    close_door(params['nodes'],1,value)
             if params['open_state'] == 'small':
-                open_door(1,value)
-                close_door(0,value)
+                open_door(params['nodes'],1,value)
+                close_door(params['nodes'],0,value)

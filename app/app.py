@@ -18,15 +18,18 @@ def func_caller(post):
             action = post.getvalue('action')
             relay = post.getvalue('relay')
             node = post.getvalue('node')
+            nodes = load_params()['nodes']
             set_man(node)
+            send_message('params_saved')
             if action == 'close':
-                close_door(relay,node)
+                close_door(nodes,relay,node)
             else:
-                open_door(relay,node)
+                open_door(nodes,relay,node)
         if method == 'get_params':
             return get_params()
         if method == 'put_params':
-            put_params(post.getvalue('params'))
+            save_params(post.getvalue('params'))
+            send_message('params_saved')
         if method == 'get_status':
             return get_status()
         return '{"response":"ok"}'
