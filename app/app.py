@@ -7,7 +7,7 @@ def set_man(node):
     params['auto'][node] = 'false'
     save_params(params)
     status = json.loads(read_status())
-    save_status(status.open_time,status.close_time,params['auto'])
+    save_status(status['open_time'],status['close_time'],params['auto'])
 
 
 def get_status():

@@ -161,7 +161,7 @@ async function door_btn_click() {
 }
 async function send_data(request) {
   return fetch(
-      window.location.href+'/api',
+      window.location.href+'api',
       {method: 'POST',body: request}
     )
     .then((response) => {return response.json()})
