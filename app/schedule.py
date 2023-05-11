@@ -57,7 +57,7 @@ def update_conditions(location):
 while True:
     time.sleep(5)
     current_time = int(datetime.now().strftime('%H:%M').replace(":",''))
-    new_par ams = check_new_params()
+    new_params = check_new_params()
     if new_params:
         params = json.loads(new_params)
         open_time,close_time = update_open_close_times(weather,params)
