@@ -24,7 +24,7 @@ def send_params(params):
 
 def check_new_params():
     if queue.qsize() != 0:
-        return param_queue.get()
+        return queue.get()
 
 def save_status(open_time,close_time,auto_stat):
     with open('status.json','w') as f:
