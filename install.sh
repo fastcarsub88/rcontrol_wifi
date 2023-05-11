@@ -8,15 +8,15 @@ if [[ $1 == 'uninstall' ]]; then
   rm /etc/nginx/sites-enabled/nginx_conf
   systemctl disable rcontrol_web
   systemctl disable rcontrol_sched
-  echo "Remove all packages? Type 'yes' to remove all apt packages"
+  echo "Remove all packages? Type 'yes' to remove all apt packages - python3-pip nginx uwsgi uwsgi-plugin-python3 python3-requests libffi-dev wireguard"
   read remove_apt
   if [[ $remove_apt == 'yes' ]]; then
-    apt remove python3-pip nginx uwsgi uwsgi-plugin-python3 python3-requests -y
+    apt remove python3-pip nginx uwsgi uwsgi-plugin-python3 python3-requests libffi-dev wireguard -y
   fi
   exit
 fi
 if [[ $1 == 'install' ]]; then
-  apt-get install python3-pip nginx uwsgi uwsgi-plugin-python3 python3-requests wireguard -y
+  apt-get install python3-pip nginx uwsgi uwsgi-plugin-python3 python3-requests wireguard libffi-dev -y
   pip3 install ipcqueue
   getent passwd rcontrol > /dev/null
   if [[ $? -ne 0 ]]; then
