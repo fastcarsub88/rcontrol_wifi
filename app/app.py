@@ -28,7 +28,6 @@ def func_caller(post):
             node = post.getvalue('node')
             nodes = load_params()['nodes']
             set_man(node)
-            send_message('params_saved')
             if action == 'close':
                 close_door(nodes,relay,node)
             else:
@@ -38,7 +37,6 @@ def func_caller(post):
             return get_params()
         if method == 'put_params':
             send_params(post.getvalue('params'))
-            send_message('params_saved')
             return '{"response": "ok"}'
         if method == 'get_status':
             nodes = load_params()['nodes']
