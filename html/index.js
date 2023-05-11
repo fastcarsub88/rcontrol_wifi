@@ -205,9 +205,12 @@ function formatTime(num) {
   time = time.replace(':','')
   var hour = time.slice(0,-2)
   var min = time.slice(-2)
-  var pm = (Number(hour) > 12 ? 'pm' : 'am')
-  if (pm = 'pm') {
-    hour = hour - 12
+  var pm = ''
+  if (am_pm == 'true') {
+    pm = (Number(hour) > 12 ? 'PM' : 'AM')
+    if (pm == 'pm') {
+      hour = hour - 12
+    }
   }
   return hour+':'+min+pm
 }
