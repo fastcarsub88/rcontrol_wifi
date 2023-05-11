@@ -200,6 +200,16 @@ async function get_conditions() {
   errors = (!status.errors ? '' : status.errors)
   serverTime = status.time
 }
+function formatTime(num) {
+  var time = String(num)
+  var hour = time.slice(0,-2)
+  var min = time.slice(-2)
+  var pm = (hour > 12 ? 'pm' : '')
+  if (pm = 'pm') {
+    hour = hour - 12
+  }
+  return hour+':'+min+pm
+}
 function update_elements() {
   document.getElementById('temp_elem').innerText = weather.feels_like;
   document.getElementById('wind_sp_elem').innerText = weather.wind_speed;
@@ -207,10 +217,8 @@ function update_elements() {
   document.getElementById('time_elem').innerText = serverTime;
   document.getElementById('sunrise_elem').innerText = weather.sunrise;
   document.getElementById('sunset_elem').innerText = weather.sunset;
-  var opentime = String(params.open_time)
-  var closetime = String(params.close_time)
-  document.getElementById('open_time_elem').innerText = opentime.slice(0,-2)+':'+opentime.slice(-2);
-  document.getElementById('close_time_elem').innerText = closetime.slice(0,-2)+':'+closetime.slice(-2);
+  document.getElementById('open_time_elem').innerText = formatTime(params.open_time)
+  document.getElementById('close_time_elem').innerText = formatTime(params.close_time)
   document.getElementById('error_message').innerText = errors;
   for (let [node, state] of Object.entries(d_stat)){
     var element = document.getElementById(node+'fieldset')
