@@ -60,8 +60,8 @@ def cnt_time(time,num):
     else:
         num = -num
         for i in range(num):
-            if int(str(t)[-2:]) == 99:
-                t -= 40
+            if int(str(t)[-2:]) == 00:
+                t -= 41
             else:
                 t -= 1
     return t
