@@ -202,21 +202,22 @@ async function get_conditions() {
 }
 function formatTime(num) {
   var time = String(num)
+  time = time.replace(':','')
   var hour = time.slice(0,-2)
   var min = time.slice(-2)
-  var pm = (hour > 12 ? 'pm' : '')
+  var pm = (Number(hour) > 12 ? 'pm' : 'am')
   if (pm = 'pm') {
     hour = hour - 12
   }
   return hour+':'+min+pm
 }
 function update_elements() {
-  document.getElementById('temp_elem').innerText = weather.feels_like;
-  document.getElementById('wind_sp_elem').innerText = weather.wind_speed;
-  document.getElementById('wind_dir_elem').innerText = weather.wind_dir;
-  document.getElementById('time_elem').innerText = serverTime;
-  document.getElementById('sunrise_elem').innerText = weather.sunrise;
-  document.getElementById('sunset_elem').innerText = weather.sunset;
+  document.getElementById('temp_elem').innerText = weather.feels_like
+  document.getElementById('wind_sp_elem').innerText = weather.wind_speed
+  document.getElementById('wind_dir_elem').innerText = weather.wind_dir
+  document.getElementById('time_elem').innerText = serverTime
+  document.getElementById('sunrise_elem').innerText = formatTime(weather.sunrise)
+  document.getElementById('sunset_elem').innerText = formatTime(weather.sunset)
   document.getElementById('open_time_elem').innerText = formatTime(params.open_time)
   document.getElementById('close_time_elem').innerText = formatTime(params.close_time)
   document.getElementById('error_message').innerText = errors;
