@@ -11,6 +11,7 @@ var am_pm = localStorage.am_pm ? localStorage.am_pm : '24'
 var timeFormat = document.getElementById('time_format')
 timeFormat.onchange = function () {
   localStorage.am_pm = this.value
+  am_pm = this.value
   update_elements()
 }
 timeFormat.value = am_pm
