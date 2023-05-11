@@ -2,13 +2,11 @@ import cgi,json,threading
 from time import sleep
 from functions import *
 
+
 def set_man(node):
     params = load_params()
     params['auto'][node] = 'false'
-    save_params(params)
-    status = json.loads(read_status())
-    save_status(status['open_time'],status['close_time'],params['auto'])
-
+    send_params(params)
 
 def get_status():
     res = {}
@@ -39,7 +37,7 @@ def func_caller(post):
         if method == 'get_params':
             return get_params()
         if method == 'put_params':
-            save_params(post.getvalue('params'))
+            send_params(post.getvalue('params'))
             send_message('params_saved')
             return '{"response": "ok"}'
         if method == 'get_status':

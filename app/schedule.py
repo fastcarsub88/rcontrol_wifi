@@ -1,6 +1,9 @@
 import requests,json,time
 from datetime import datetime
+from ipcqueue import posixmq
 from functions import *
+
+queue = posixmq.Queue('/rcontrol')
 
 last_weather_check = 0
 weather = {}
@@ -54,23 +57,22 @@ def update_conditions(location):
 while True:
     time.sleep(5)
     current_time = int(datetime.now().strftime('%H:%M').replace(":",''))
+    new_params = check_new_params():
+    if new_params:
+        params = new_params
+        open_time,close_time = update_open_close_times(weather,params)
+        save_params(new_params)
+        save_status(open_time,close_time,params['auto'])
 
     if (current_time - last_weather_check) > 10 or last_weather_check > current_time:
         last_weather_check = current_time
         params = load_params()
-        clear_message()
         weather_check = update_conditions(params['location'])
         if weather_check:
             weather = weather_check
             open_time,close_time = update_open_close_times(weather,params)
             feels_like = weather['feels_like']
             save_status(open_time,close_time,params['auto'])
-
-    if read_message() == 'params_saved':
-        params = load_params()
-        open_time,close_time = update_open_close_times(weather,params)
-        save_status(open_time,close_time,params['auto'])
-        clear_message()
 
     if params['open_state'] == 'reset':
         if current_time >= open_time:

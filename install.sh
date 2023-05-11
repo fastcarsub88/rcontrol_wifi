@@ -17,6 +17,7 @@ if [[ $1 == 'uninstall' ]]; then
 fi
 if [[ $1 == 'install' ]]; then
   apt-get install python3-pip nginx uwsgi uwsgi-plugin-python3 python3-requests wireguard -y
+  pip install ipcqueue
   getent passwd rcontrol > /dev/null
   if [[ $? -ne 0 ]]; then
     useradd rcontrol

@@ -1,5 +1,8 @@
 import requests,json
 from datetime import datetime
+from ipcqueue import posixmq
+
+queue = posixmq.Queue('/rcontrol')
 
 def load_params():
     with open('params.json') as f:
@@ -15,6 +18,13 @@ def save_params(params):
     if len(params) == 11:
         with open('params.json','w') as f:
             f.write(json.dumps(params))
+
+def send_params(params):
+    queue.put(params)
+
+def check_new_params():
+    if queue.qsize() != 0:
+        return param_queue.get()
 
 def save_status(open_time,close_time,auto_stat):
     with open('status.json','w') as f:
@@ -85,18 +95,6 @@ def close_door(nodes,relay,node):
         js = requests.get('http://'+nodes[node]+'/rpc/Switch.Set?id='+str(relay)+'&on=false')
     except Exception:
         return
-
-def send_message(mess):
-    with open('messages','w') as f:
-        f.write(mess)
-
-def read_message():
-    with open('messages') as f:
-        return f.read()
-
-def clear_message():
-    with open('messages','w') as f:
-        f.write('')
 
 def get_weather():
     with open('weather.json') as f:
