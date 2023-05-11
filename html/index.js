@@ -6,6 +6,7 @@ var auto_checkboxes = document.getElementById('auto_checkboxes')
 var door_btn_div = document.getElementById('doorbtndiv')
 var setting_nodes = document.getElementById('setting_nodes')
 var parForm = document.forms.par_form;
+var apiEndpoint = window.location.href.replace('index.html')+'api',
 
 parModel.open = async function () {
   loader.show()
@@ -161,7 +162,7 @@ async function door_btn_click() {
 }
 async function send_data(request) {
   return fetch(
-      window.location.href+'api',
+      window.location.href.replace('index.html')+'api',
       {method: 'POST',body: request}
     )
     .then((response) => {return response.json()})
