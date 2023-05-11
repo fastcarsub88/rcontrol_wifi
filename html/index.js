@@ -210,7 +210,7 @@ function formatTime(num) {
   var hour = time.slice(0,-2)
   var min = time.slice(-2)
   var pm = ''
-  if (am_pm == 'true') {
+  if (am_pm == '12') {
     pm = (Number(hour) > 12 ? 'PM' : 'AM')
     if (pm == 'pm') {
       hour = hour - 12
