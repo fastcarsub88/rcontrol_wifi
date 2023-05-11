@@ -19,8 +19,8 @@ def save_params(params):
         with open('params.json','w') as f:
             f.write(json.dumps(params))
 
-def send_params(params):
-    queue.put(params)
+def send_params(params_str):
+    queue.put(params_str)
 
 def check_new_params():
     if queue.qsize() != 0:
@@ -53,15 +53,15 @@ def cnt_time(time,num):
     dir = float(num)
     if dir >= 0:
         for i in range(num):
-            if int(str(t)[-2:]) == 60:
+            if int(str(t)[-2:]) == 59:
                 t += 41
             else:
                 t += 1
     else:
         num = -num
         for i in range(num):
-            if int(str(t)[-2:]) == 00:
-                t -= 41
+            if int(str(t)[-2:]) == 99:
+                t -= 40
             else:
                 t -= 1
     return t
