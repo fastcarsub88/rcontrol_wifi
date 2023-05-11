@@ -8,7 +8,12 @@ var setting_nodes = document.getElementById('setting_nodes')
 var parForm = document.forms.par_form;
 var apiEndpoint = window.location.href.replace('index.html')+'api'
 var am_pm = localStorage.am_pm ? localStorage.am_pm : '24'
-
+var timeFormat = document.getElementById('time_format')
+timeFormat.onchange = function () {
+  localStorage.am_pm = this.value
+  update_elements()
+}
+timeFormat.value = am_pm
 parModel.open = async function () {
   loader.show()
   var data = await get_params();
@@ -124,9 +129,6 @@ document.getElementById('num_of_nodes').onchange = function () {
       setting_nodes.append(createNodeSetInput())
     }
   }
-}
-document.getElementById('time_format').onchange = function () {
-  localStorage.am_pm = this.value
 }
 document.addEventListener('visibilitychange',() => {
   if (document.visibilityState == 'hidden') {
