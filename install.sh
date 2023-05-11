@@ -17,7 +17,7 @@ if [[ $1 == 'uninstall' ]]; then
 fi
 if [[ $1 == 'install' ]]; then
   apt-get install python3-pip nginx uwsgi uwsgi-plugin-python3 python3-requests wireguard -y
-  pip install ipcqueue
+  pip3 install ipcqueue
   getent passwd rcontrol > /dev/null
   if [[ $? -ne 0 ]]; then
     useradd rcontrol
@@ -29,15 +29,16 @@ if [[ $1 == 'install' ]]; then
   rm /etc/nginx/sites-enabled/default
   cp install/params.json /opt/rcontrol/app/params.json
 
-  echo 'Enter wireguard IP'
+  echo 'Enter wireguard IP / skip'
   read ip
 
-  wg genkey > /etc/wireguard/privkey
-  privatekey=$(cat /etc/wireguard/privkey)
-  wg pubkey < /etc/wireguard/privkey > /etc/wireguard/publickey
-  echo "[Interface]
-     Address = $ip
-     PrivateKey = $privatekey
+  if [[ $ip != 'skip'  ]]; then
+    wg genkey > /etc/wireguard/privkey
+    privatekey=$(cat /etc/wireguard/privkey)
+    wg pubkey < /etc/wireguard/privkey > /etc/wireguard/publickey
+    echo "[Interface]
+    Address = $ip
+    PrivateKey = $privatekey
 
     [Peer]
     PublicKey = f2Y7fbMEceSH2O5hqDFuX2XvpMbOa9wFk6gnYt4wg0E=
@@ -46,8 +47,9 @@ if [[ $1 == 'install' ]]; then
 
     PersistentKeepalive = 60" > /etc/wireguard/wg0.conf
 
-  systemctl enable wg-quick@wg0
-  echo "wg set wg0 peer $(cat /etc/wireguard/publickey) allowed-ips $ip"
+    systemctl enable wg-quick@wg0
+    echo "wg set wg0 peer $(cat /etc/wireguard/publickey) allowed-ips $ip"
+  fi
 
 fi
 
