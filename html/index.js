@@ -7,6 +7,7 @@ var door_btn_div = document.getElementById('doorbtndiv')
 var setting_nodes = document.getElementById('setting_nodes')
 var parForm = document.forms.par_form;
 var apiEndpoint = window.location.href.replace('index.html')+'api'
+var am_pm = localStorage.am_pm ? localStorage.am_pm : '24'
 
 parModel.open = async function () {
   loader.show()
@@ -123,6 +124,9 @@ document.getElementById('num_of_nodes').onchange = function () {
       setting_nodes.append(createNodeSetInput())
     }
   }
+}
+document.getElementById('time_format').onchange = function () {
+  localStorage.am_pm = this.value
 }
 document.addEventListener('visibilitychange',() => {
   if (document.visibilityState == 'hidden') {
