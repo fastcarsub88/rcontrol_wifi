@@ -6,7 +6,7 @@ from functions import *
 def set_man(node):
     params = load_params()
     params['auto'][node] = 'false'
-    send_params(params)
+    send_params(json.dumps(params))
 
 def get_status():
     res = {}

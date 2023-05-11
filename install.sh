@@ -3,6 +3,9 @@ if [[ $1 != 'install' && $1 != 'update' && $1 != 'uninstall' ]]; then
   echo 'Pass "install" or "update" or "uninstall"'
   exit 1
 fi
+if [[ $1 == 'update' ]]; then
+  git pull
+fi
 if [[ $1 == 'uninstall' ]]; then
   rm -r /opt/rcontrol
   rm /etc/nginx/sites-enabled/nginx_conf
