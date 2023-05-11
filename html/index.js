@@ -6,7 +6,7 @@ var auto_checkboxes = document.getElementById('auto_checkboxes')
 var door_btn_div = document.getElementById('doorbtndiv')
 var setting_nodes = document.getElementById('setting_nodes')
 var parForm = document.forms.par_form;
-var apiEndpoint = window.location.href.replace('index.html')+'api',
+var apiEndpoint = window.location.href.replace('index.html')+'api'
 
 parModel.open = async function () {
   loader.show()
