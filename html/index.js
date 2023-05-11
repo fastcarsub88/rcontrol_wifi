@@ -213,7 +213,7 @@ function formatTime(num) {
   if (am_pm == '12') {
     pm = (hour > 12 ? ' PM' : ' AM')
     if (pm == ' PM') {
-      hour = hour - 12
+      hour = String(hour - 12)
     }
   }
   return hour.replace(/^0+/, '')+':'+min+pm
