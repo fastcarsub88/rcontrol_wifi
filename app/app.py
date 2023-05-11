@@ -45,7 +45,7 @@ def func_caller(post):
             res['params'] = read_status()
             res['errors'] = get_errors()
             res['weather'] = get_weather()
-            res['time'] = datetime.now().strftime('%I:%M %p')
+            res['time'] = datetime.now().strftime('%H:%M')
             return json.dumps(res)
         return '{"response":"error","error": "method not understood"}'
     except Exception as e:

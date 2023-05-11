@@ -211,18 +211,18 @@ function formatTime(num) {
   var min = time.slice(-2)
   var pm = ''
   if (am_pm == '12') {
-    pm = (Number(hour) > 12 ? ' PM' : ' AM')
+    pm = (hour > 12 ? ' PM' : ' AM')
     if (pm == ' PM') {
       hour = hour - 12
     }
   }
-  return hour+':'+min+pm
+  return hour.replace(/^0+/, '')+':'+min+pm
 }
 function update_elements() {
   document.getElementById('temp_elem').innerText = weather.feels_like
   document.getElementById('wind_sp_elem').innerText = weather.wind_speed
   document.getElementById('wind_dir_elem').innerText = weather.wind_dir
-  document.getElementById('time_elem').innerText = serverTime
+  document.getElementById('time_elem').innerText = formatTime(serverTime)
   document.getElementById('sunrise_elem').innerText = formatTime(weather.sunrise)
   document.getElementById('sunset_elem').innerText = formatTime(weather.sunset)
   document.getElementById('open_time_elem').innerText = formatTime(params.open_time)
