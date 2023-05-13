@@ -87,13 +87,13 @@ def get_relay_state(nodes,node='all'):
 
 def open_door(nodes,relay,node):
     try:
-        js = requests.get('http://'+nodes[node]+'/rpc/Switch.Set?id='+str(relay)+'&on=true')
+        js = requests.get('http://'+nodes[node]+'/rpc/Switch.Set?id='+str(relay)+'&on=true',timeout=2)
     except Exception:
         return
 
 def close_door(nodes,relay,node):
     try:
-        js = requests.get('http://'+nodes[node]+'/rpc/Switch.Set?id='+str(relay)+'&on=false')
+        js = requests.get('http://'+nodes[node]+'/rpc/Switch.Set?id='+str(relay)+'&on=false',timeout=2)
     except Exception:
         return
 

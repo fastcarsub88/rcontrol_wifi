@@ -170,7 +170,7 @@ async function door_btn_click() {
 }
 async function send_data(request) {
   return fetch(
-      window.location.href.replace('index.html')+'api',
+      window.location.href.replace('index.html','')+'api',
       {method: 'POST',body: request}
     )
     .then((response) => {return response.json()})
